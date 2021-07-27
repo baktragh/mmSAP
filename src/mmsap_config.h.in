@@ -1,0 +1,2 @@
+/*Defines substituted by CMAKE*/ 
+#define MMSAP_PREFIX "${MMSAP_PREFIX}"

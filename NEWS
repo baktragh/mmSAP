@@ -1,0 +1,31 @@
+   3.2.5  * To fully exploit GTKmm, UI objects are obtained using
+            Gtk::Builder->get_widget instead of the underlying gtk_builder_get_object
+            and wrapping. This boosts the startup process.
+          * UI files are not linked into the binary, but installed to
+            the <prefix>/share/mmsap directory. This reduces size of the distribution
+            archive and helps maintainability.
+          * Gtk::RecentManager is used to track recently opened tunes.  
+
+   3.2.4  * mmSAP is provided with an additional alternative user interface that is
+            "Global menu friendly". User inteface can be switched using the Preferences
+            dialog.
+
+   3.2.3  * Cooperation between GTK+ thread and player loop thread has been refactored.
+            There is no need for 1 second timer tick that handles transition from one
+            subsong/tune to another. This makes the transitions from one subsong/tune
+            to another much smoother.
+          * Code cleanups in the AlsaPlayer module
+          * A code that circumvents new behavior of the GtkFileChooserDialog (tendency
+            to use the "Recently used" shortcut) has been added.
+
+   3.2.2  * Fixed SIGSEGV on startup (3.2.1 was repackaged with this fix included
+          * New "Ignore TIME tag" in the "Mode" menu. Restart of playback is
+            required.
+
+   3.2.1  * Fixed a crash that occured when seeking was performed without a SAP tune loaded
+          * Playlist wraparound effective also when the previous tune is requested
+          * Visualization for MONO tunes exploits all 8 bars
+
+   3.2.0  * Using ASAP 3.0.0 which is NOT compatible with previous ASAP releases
+          * Fixed 'You have to restart mmSAP2 to apply this settings' string in GUI
+          * 'Always play in stereo' feature removed.

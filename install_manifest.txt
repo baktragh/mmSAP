@@ -1,0 +1,3 @@
+/usr/local/bin/mmsap
+/usr/local/share/mmsap/mmsap.ui
+/usr/local/share/mmsap/mmsap_alt.ui
