@@ -10,8 +10,7 @@
    ASAP library also allows you to load RMT,TMC,TM2,MPT,CMC files directly. For fresh
    information about supported formats, refer to the ASAP project.
 
-   mmSAP tries to be the best specialized player that takes into account all
-   features of the SAP file format.
+   mmSAP is no longer actively developed. This repository is for its preservation.
 
 2. Features
 ===========
@@ -30,85 +29,28 @@
    * Audio output through ALSA
    * Possibility to mute selected POKEY channels
 
-2. Operating systems supported
+3. Operating systems supported
 ==============================
-   Modern GNU/Linux distributions.
-   There is no support for Microsoft Windows (and it is not planned).
-
-3. Dependencies
+Modern GNU/Linux distributions
+   
+4. Dependencies
 ===============
-   * gtkmm 3.0, GTK+ 3.0, just install runtime and development libraries
-   * ALSA 1.0.X, just install alsa-devel package.
-   * ASAP 3.0.0 or newer, download from http://asap.sourceforge.net/. Latest release is recommended.
-   * D-Bus
+   * gtkmm 3.0, GTK+ 3.0
+   * ALSA 
+   * ASAP (Download from http://asap.sourceforge.net/. Latest release is recommended.)
    * pkg-config
    * CMake
    * GCC
 
-4. Compiling and installing
+5. Compiling and installing
 ===========================
-
-   ASAP 3.0.0 and newer
-   ------------------------------
-   
-   * All you need to install is ASAP library (libasap)
-   * Extract the tarball and change working directory to the extracted one.
-     Invoke following commands:
-     
-     make lib
-     # become super user
-     make install-lib
-   
-   If you are in doubt, consult ASAP documentation.
-
-   mmSAP instalation
-   -------------------
-
+   * Install all the dependencies
    * Change working directory to the directory that contains mmSAP  
      sources and invoke following commands: 
      cmake .
      make
-     #become super user
-     make install
-
+     sudo make install
    * The ${HOME}/.config directory must exist, in other
      case mmSAP will not be able to save the preferences.
      This directory usually exists (GTK+ uses it and mmSAP
      uses GTK+)
-
-5. Modifying GUI
-================
-   * Use Glade 3.10.0 or newer to modify mmsap.ui. 
-
-   * GUI is linked into binary. To convert mmsap.ui to C
-     array, you can use for example KHexEdit or its successor 
-     called Okteta or something similar.
-
-6. Planning:
-============
-   Bugfixes, new features
-
-7. Tested GNU/Linux distributions
-========================================
-   openSuSE 12.1, Ubuntu 12.04, Kubuntu 12.04
-
-8. Problems with SAP tunes
-==============================
-   If you encounter problem with specific SAP tune, first
-   try it with asap2wav and play back the generated WAVE
-   file. If the problem persists, the problem is not
-   mmSAP related.
-
-9. Known problems
-=================
-   * Seeking does not work with tunes that lack TIME tag. This
-     probably won't be fixed
-
-   * Seeking works with almost all tunes from ASMA, but not
-     with all
-
-10. Greetings and thanks to
-===========================
-   * Piotr Fusik
-   * Zdenek Eisenhammer
-   * All GTK+ and gtkmm developers and contributors
