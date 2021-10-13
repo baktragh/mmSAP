@@ -5,7 +5,6 @@ Asma::Asma() {
     valid=false;
     asmaDir="";
     stilFile="";
-    table=NULL;
 }
 
 void Asma::initialize(Glib::ustring dir,Glib::ustring stil) {
@@ -33,21 +32,10 @@ void Asma::initialize(Glib::ustring dir,Glib::ustring stil) {
 	#endif
 	
     
-    /*These files exist, create hashtable*/
-    if(table!=NULL) {
-        g_hash_table_unref(table);
-        table=NULL;
-    };
-    table=g_hash_table_new(g_str_hash,g_str_equal);
-    
-    if (table==NULL) return;
-    
     asmaDir=dir;
     stilFile=stil;
-    stilPaths.clear();
-    stilTexts.clear();
-    
     valid=true;
+    table.clear();
     
 }
 
@@ -124,78 +112,81 @@ void Asma::parse() {
 void Asma::addEntry(Glib::ustring path,Glib::ustring text) {
     
     if (path!="" && text!="") {
-        stilPaths.push_back(path);
-        stilTexts.push_back(text);
         #ifdef DEBUG_PRINTOUTS
         printf("ASMA: Added entry: %s\n",path.c_str());
         printf("ASMA: Entry contents begin:\n");
         printf("%s\n",text.c_str());
         printf("ASMA: Entry contents end:\n");
         #endif
-        g_hash_table_insert(table,(void*)(stilPaths[stilPaths.size()-1].c_str()),(void*)(stilTexts[stilTexts.size()-1].c_str()));
+        table[path]=text;
     }
 }
 
 Glib::ustring Asma::getEntry(Glib::ustring fspec) {
     
-    #ifdef DEBUG_PRINTOUTS
-    printf("Asma::getEntry(%s)\n",fspec.c_str());
-    #endif
-    
-    Glib::ustring retVal="";
-    
-    if (valid==false) return retVal;
-    if (fspec.length()<1) return retVal;
-    
+   #ifdef DEBUG_PRINTOUTS
+    printf("Asma::getEntry|%s|\n", fspec.c_str());
+#endif
+
+    Glib::ustring retVal = "";
+
+    if (valid == false) return retVal;
+    if (fspec.length() < 1) return retVal;
+
     /*Try to find asma directory at the beginning of the filespec*/
-    int k = fspec.find(asmaDir);
-    if (k!=0) return retVal;
-    
+    Glib::ustring upperSpec = fspec.uppercase();
+    Glib::ustring upperAsmaDir = asmaDir.uppercase();
+
+    int k = upperSpec.find(upperAsmaDir);
+    if (k != 0) return retVal;
+
     /*The filespec now starts with asma, so we should remove the beginning chars*/
-    Glib::ustring key=fspec;
-    key=key.erase(0,asmaDir.length());
-    
-    #ifdef DEBUG_PRINTOUTS
-    printf("   key: |%s|\n",key.c_str());
-    #endif
-    
+    Glib::ustring rawKey = fspec;
+    rawKey = rawKey.erase(0, asmaDir.length());
+    Glib::ustring key;
+
+    /*Reverse slashes*/
+    k = rawKey.length();
+    for (int i = 0; i < k; i++) {
+        if (rawKey.at(i) == '\\') key += '/';
+        else key += rawKey.at(i);
+    }
+
+#ifdef DEBUG_PRINTOUTS
+    printf("ASMA::getEntry() key: |%s|\n", key.c_str());
+#endif
+
     /*Look for subkeys*/
-    int zl=key.length();
-    int xr=zl-1;
+    int zl = key.length();
+    int xr = zl - 1;
     gchar* entry;
-    
-    while (xr>0) {
-        
-        if (key[xr]!='/') {
-            
-        }
-        else {
-            entry=(gchar*)g_hash_table_lookup(table,key.substr(0,xr+1).c_str());
-            
-            #ifdef DEBUG_PRINTOUTS
-            printf("subkey: |%s|\n",key.substr(0,xr+1).c_str());
-            #endif
-            
-            if (entry!=NULL) {
-                retVal+=Glib::ustring(entry);
-                retVal+='\n';
+
+    while (xr > 0) {
+
+        if (key[xr] != '/') {
+
+        } else {
+
+
+            if (table.find(key.substr(0, xr + 1)) != table.end()) {
+                retVal += table[key.substr(0, xr + 1)];
+                retVal += "\n";
             }
+
         }
         xr--;
     }
-    
-    /*Look for main key*/
-    entry=(gchar*) g_hash_table_lookup(table, key.c_str());
 
-    if (entry != NULL) {
-        retVal.insert(0,Glib::ustring("\n"));
-        retVal.insert(0,Glib::ustring(entry));
+    /*Look for main key*/
+    if (table.find(key) != table.end()) {
+        retVal.insert(0, Glib::ustring("\n"));
+        retVal.insert(0, Glib::ustring(table[key]));
     }
 
-    #ifdef DEBUG_PRINTOUTS
-    printf("retVal: %s \n",retVal.c_str());
-    #endif
-    
+#ifdef DEBUG_PRINTOUTS
+    printf("ASMA::getEntry() retVal: %s \nfor %s\n", retVal.c_str(), key.c_str());
+#endif
+
     return retVal;
     
     

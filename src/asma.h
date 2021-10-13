@@ -15,11 +15,9 @@ public:
     
 private:
     bool valid;
-    GHashTable* table;
+    std::map<std::string,std::string> table;
     Glib::ustring asmaDir;
     Glib::ustring stilFile;
-    std::vector<Glib::ustring> stilTexts;
-    std::vector<Glib::ustring> stilPaths;
     void addEntry(Glib::ustring path,Glib::ustring text);
 };
 
