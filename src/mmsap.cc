@@ -1,4 +1,5 @@
-/* mmSAP-win32  v3.0.0
+/* 
+   mmSAP-win32  v3.0.0
    
    SAP (Slight atari player) player based on ASAP library
    Copyright (C) 2009-2022 Michael Kalouš <zylon@post.cz>
@@ -114,28 +115,13 @@ int main(int argc, char** argv) {
         asma->parse();
     }
 
-#ifdef DEBUG_PRINTOUTS
-    printf("Before run\n");
-    fflush(stdout);
-#endif
-
     /*Show main window*/
     Gtk::Main::run(*(gui->wndMain));
 
-#ifdef DEBUG_PRINTOUTS
-    printf("After run\n");
-    fflush(stdout);
-#endif
-
     /*Save preferences*/
     if (savePreferencesFlag == true) {
-        //preferences->save();
+        preferences->save();
     }
-
-#ifdef DEBUG_PRINTOUTS
-    printf("Normal exit\n");
-    fflush(stdout);
-#endif
 
     return (EXIT_SUCCESS);
 }

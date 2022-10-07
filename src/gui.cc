@@ -131,8 +131,6 @@ void GUI::create(const char* pathToMainBinary) {
     xml->get_widget("chbUseStil", chbUseStil);
     xml->get_widget("btnBrowseASMADir", btnBrowseASMADir);
     xml->get_widget("btnBrowseSTIL", btnBrowseSTIL);
-    xml->get_widget("entAlsaDevice", entAlsaDevice);
-    xml->get_widget("chbAlwaysStereo", chbAlwaysStereo);
     xml->get_widget("chbNormalizeSAPHeader", chbNormalizeSAPHeader);
 
 
@@ -405,11 +403,6 @@ void GUI::updatePreferencesChanged(Preferences* prefs, bool startup) {
     entStilFile->set_text(prefs->getStilFile());
     chbUseStil->set_active(prefs->getUseStilFile());
 
-    /*ALSA*/
-    entAlsaDevice->set_text(prefs->getAlsaDevice());
-    chbAlwaysStereo->set_active(prefs->getAlwaysStereo());
-
-
 }
 
 void GUI::flushPreferences(Preferences* prefs) {
@@ -438,8 +431,8 @@ void GUI::flushPreferences(Preferences* prefs) {
     prefs->setUseStilFile(chbUseStil->get_active());
 
     /*ALSA*/
-    prefs->setAlsaDevice(entAlsaDevice->get_text());
-    prefs->setAlwaysStereo(chbAlwaysStereo->get_active());
+    //prefs->setAlsaDevice(entAlsaDevice->get_text());
+    //prefs->setAlwaysStereo(chbAlwaysStereo->get_active());
 
 }
 

@@ -31,9 +31,6 @@ public:
     Glib::ustring getAsmaDirectory();
     Glib::ustring getStilFile();
     bool getUseStilFile();
-    Glib::ustring getAlsaDevice();
-    bool getAlwaysStereo();
-    int getAlsaBufferSize();
     bool getNormalizeSAPHeader();
     int getVisualizationDecrement();
 
@@ -50,9 +47,6 @@ public:
     void setAsmaDirectory(Glib::ustring fspec);
     void setStilFile(Glib::ustring fspec);
     void setUseStilFile(bool b);
-    void setAlsaDevice(Glib::ustring s);
-    void setAlwaysStereo(bool b);
-    void setAlsaBufferSize(int bufsize);
     void setNormalizeSAPHeader(bool b);
     void setVisualizationDecrement(int d);
 
@@ -76,9 +70,6 @@ private:
     Glib::ustring asmaDirectory;
     Glib::ustring stilFile;
     bool useStilFile;
-    Glib::ustring alsaDevice;
-    bool alwaysStereo;
-    int alsaBufferSize;
     bool normalizeSAPHeader;
 
 

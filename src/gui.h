@@ -78,8 +78,6 @@ public:
     Gtk::Entry* entAsmaDirectory;
     Gtk::Entry* entStilFile;
     Gtk::CheckButton* chbUseStil;
-    Gtk::Entry* entAlsaDevice;
-    Gtk::CheckButton* chbAlwaysStereo;
     Gtk::SpinButton* spbVisualizationDecrement;
     Gtk::Button* btnBrowseASMADir;
     Gtk::Button* btnBrowseSTIL;
