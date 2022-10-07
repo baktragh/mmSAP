@@ -17,29 +17,29 @@ class GUI {
 public:
 
     /*Tooltips*/
-    Gtk::Tooltips toolTips;
+    //Gtk::Tooltips toolTips;
 
 
     /*Window and player*/
     Gtk::Window* wndMain;
     Gtk::FileChooserDialog* fcdLoad;
     Gtk::Button* btnPlayOrPause;
-    Gtk::ImageMenuItem* mniLoadSAP;
+    Gtk::MenuItem* mniLoadSAP;
     Gtk::Button* btnStop;
     Gtk::Button* btnPrevious;
     Gtk::Button* btnNext;
     Gtk::Label* lblSongCounter;
-    Gtk::HScale* hscSeeking;
+    Gtk::Scale* hscSeeking;
     Gtk::Label* lblElapsedTime;
     Gtk::Label* lblFilename;
-    Gtk::VBox* vbxPlayerBox;
+    Gtk::Box* vbxPlayerBox;
     Gtk::ToggleButton* tgbAdvancedControls;
     Gtk::Button* btnNextTune;
     Gtk::Button* btnPreviousTune;
     Gtk::Label* lblTuneInfo;
 
     /*Browse and play*/
-    Gtk::ImageMenuItem* mniBrowseAndPlay;
+    Gtk::MenuItem* mniBrowseAndPlay;
     Gtk::FileChooserDialog* fcdBrowseAndPlay;
     Gtk::Button* btnBrowseAndPlayClose;
 
@@ -57,24 +57,24 @@ public:
     Gtk::RadioMenuItem* mniRepPlaylist;
 
     /*About*/
-    Gtk::ImageMenuItem* mniAbout;
+    Gtk::MenuItem* mniAbout;
     Gtk::Dialog* dlgAbout;
     Gtk::Label* lblVersion;
 
     /*Quit*/
-    Gtk::ImageMenuItem* mniQuit;
+    Gtk::MenuItem* mniQuit;
 
     /*Preferences dialog*/
     Gtk::Dialog* dlgPreferences;
     Gtk::CheckButton* chbUseDefaultDirectory;
     Gtk::Entry* entDefaultDirectory;
-    Gtk::ImageMenuItem* mniPreferences;
-    Gtk::HScale* hscSilenceLimit;
+    Gtk::MenuItem* mniPreferences;
+    Gtk::Scale* hscSilenceLimit;
     Gtk::CheckButton* chbAlwaysFirstSubsong;
     Gtk::CheckButton* chbNormalizeSAPHeader;
     Gtk::SpinButton* spbVisualizationPeriod;
     Gtk::CheckButton* chbAdvancedControlsShownByDefault;
-    Gtk::HScale* hscVisualizationSynchro;
+    Gtk::Scale* hscVisualizationSynchro;
     Gtk::Entry* entAsmaDirectory;
     Gtk::Entry* entStilFile;
     Gtk::CheckButton* chbUseStil;
@@ -90,32 +90,32 @@ public:
 
     /*Playlist*/
     Gtk::TreeView* trvPlaylist;
-    Gtk::ImageMenuItem* mniAddFileToPlaylist;
-    Gtk::ImageMenuItem* mniAddDirectoryToPlaylist;
+    Gtk::MenuItem* mniAddFileToPlaylist;
+    Gtk::MenuItem* mniAddDirectoryToPlaylist;
 
     Gtk::FileChooserDialog* fcdAddToPlaylist;
-    Gtk::ImageMenuItem* mniSavePlaylist;
-    Gtk::ImageMenuItem* mniLoadPlaylist;
+    Gtk::MenuItem* mniSavePlaylist;
+    Gtk::MenuItem* mniLoadPlaylist;
     Gtk::FileChooserDialog* fcdPlaylist;
 
-    Gtk::ImageMenuItem* mniPlaylistRemoveAll;
-    Gtk::ImageMenuItem* mniPlaylistRemoveSelected;
+    Gtk::MenuItem* mniPlaylistRemoveAll;
+    Gtk::MenuItem* mniPlaylistRemoveSelected;
     Gtk::MenuItem* mniPlaylistTrimSelected;
-    Gtk::ImageMenuItem* mniPlaylistPurge;
+    Gtk::MenuItem* mniPlaylistPurge;
 
     Gtk::MenuItem* mniPlaylistSelectAll;
     Gtk::MenuItem* mniPlaylistSelectNone;
     Gtk::MenuItem* mniPlaylistSelectInvert;
 
-    Gtk::ImageMenuItem* mniAddPlayerFile;
+    Gtk::MenuItem* mniAddPlayerFile;
 
-    Gtk::VBox* vbxPlaylist;
+    Gtk::Box* vbxPlaylist;
 
 
     /*Establishment*/
     void create(const char* pathToMainBinary);
     void connectSignals();
-    void setupPlaylistView(Gtk::TreeModelColumn<bool> *tmc0, Gtk::TreeModelColumn<Glib::ustring> *tmc1, Glib::RefPtr<Gtk::ListStore> model);
+    void setupPlaylistView(Gtk::TreeModelColumn<Glib::ustring> *tmc0, Glib::RefPtr<Gtk::ListStore> model);
 
     /*Updates called by player*/
     void updateAfterSAPLoad(Glib::ustring filename, int songNumber, int songCount, int duration, Glib::ustring info);

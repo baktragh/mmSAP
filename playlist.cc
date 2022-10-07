@@ -13,13 +13,14 @@ bool Playlist::addFile(Glib::ustring fspec) {
     printf("Playlist::addFile(%s)\n", fspec.c_str());
 #endif
 
-    cibool ourFile = ASAPInfo_IsOurFile(fspec.c_str());
+    bool ourFile = ASAPInfo_IsOurFile(fspec.c_str());
     if (ourFile == FALSE) return false;
 
-    Gtk::TreeModel::Row row = *(lstore->append());
-    row.set_value(columns.clmFilespec, fspec);
-    row.set_value(columns.clmFilename, Glib::ustring(Glib::path_get_basename(fspec)));
-    row.set_value(columns.clmCurrent, false);
+    Gtk::TreeModel::Row row=*(lstore->append());
+    row.set_value(columns.clmFilespec,fspec);
+    row.set_value(columns.clmFilename,Glib::ustring(Glib::path_get_basename(fspec)));
+    row.set_value(columns.clmCurrent,false);
+    row.set_value(columns.clmMarkup,Glib::ustring(Glib::path_get_basename(fspec)));
 
     return true;
 }
@@ -71,6 +72,8 @@ bool Playlist::addMultipleFilespecs(std::vector<Glib::ustring> *specs) {
         }
 
     }
+    
+    return true;
 }
 
 void Playlist::clearCurrentColumn() {
@@ -80,7 +83,7 @@ void Playlist::clearCurrentColumn() {
 
     while (iter != children.end()) {
         row = *iter;
-        row.set_value(columns.clmCurrent, false);
+        setRowActive(row,false);
         iter++;
     }
 }
@@ -237,11 +240,14 @@ bool Playlist::continueToPrevious(Glib::ustring* fspec) {
 void Playlist::setRowActive(Gtk::TreeModel::Row& row, bool active) {
 
     /*Make active*/
-    if (active == true) {
-        row.set_value(columns.clmCurrent, true);
-    }        /*Make inactive*/
+    if (active==true) {
+        row.set_value(columns.clmCurrent,true);
+        row.set_value(columns.clmMarkup,Glib::ustring("<b>AAA"+row.get_value(columns.clmFilename)+"</b>AAAA"));
+    }
+    /*Make inactive*/
     else {
-        row.set_value(columns.clmCurrent, false);
+        row.set_value(columns.clmCurrent,false);
+        row.set_value(columns.clmMarkup,row.get_value(columns.clmFilename));
     }
 }
 

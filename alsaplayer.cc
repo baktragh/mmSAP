@@ -7,10 +7,10 @@ AlsaPlayer::AlsaPlayer(Preferences* pf, GUI* gi) {
     playerState = PLAYER_EMPTY;
     errorMessage = "No error";
     sapBuffer = NULL;
-    prefs = pf;
+    prefs = pf;      
     gui = gi;
 
-    state = ASAP_New();
+    state = ASAP_New();          
 
     updateConfig();
     blockSeekingUpdateFlag = false;
@@ -54,7 +54,7 @@ AlsaPlayer::~AlsaPlayer() {
 
 int AlsaPlayer::load(Glib::ustring filespec) {
 
-    cibool r = TRUE;
+    bool r = TRUE;
     gboolean b = FALSE;
 
 #ifdef DEBUG_PRINTOUTS
@@ -389,6 +389,7 @@ int AlsaPlayer::closeSoundCard() {
 #ifdef DEBUG_PRINTOUTS
     printf("closeSoundCard:END\n");
 #endif
+    return 0;
 }
 
 void playLoopNormal(void *udata, Uint8 *stream, int len) {
@@ -473,9 +474,9 @@ void AlsaPlayer::updateConfig() {
 
 bool AlsaPlayer::handleRepeat() {
     /*Before this routine has opportunity to be called, state of the
-     *player could have chaged. If so, we do nothing. This routine
+     *player could have changed. If so, we do nothing. This routine
      *runs in the GTK+ thread, so sync is not needed. All methods that
-     *neutralize repeat handling (lika playOrPause() etc. must have this
+     *neutralize repeat handling (like playOrPause() etc. must have this
      *routine neutralized*/
 
     if (playerState != PLAYER_PLAYING || cancelRepeatFlag == true) {
@@ -517,6 +518,8 @@ bool AlsaPlayer::handleRepeat() {
             return false;
         }
     }
+    
+    return false;
 
 }
 

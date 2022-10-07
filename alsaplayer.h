@@ -3,7 +3,7 @@
 #define _ALSAPLAYER_H
 
 #include "platform.h"
-#include "asap.h"
+#include <asap.h>
 #include "preferences.h"
 #include "gui.h"
 #include <gtkmm.h>
@@ -121,13 +121,13 @@ private:
     bool allocateBuffer();
 
     /*Ticks*/
-    sigc::slot<bool> tickSlot;
+    sigc::slot<bool()> tickSlot;
 
     /*Visualization related*/
     void startVisualization();
     void stopVisualization(bool ultimately = false);
     bool visualizationTick(int ti);
-    sigc::slot<bool> visualizationSlot;
+    sigc::slot<bool()> visualizationSlot;
     sigc::connection visualizationConnection;
     sigc::connection tickConnection;
 

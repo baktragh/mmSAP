@@ -40,7 +40,7 @@ extern void on_addPlayerFile();
 
 void GUI::create(const char* pathToMainBinary) {
 
-    /*Pre initialization*/
+    /*Pre-initialization*/
     tickUpdateBlocked = false;
 
     /*Determine path and load UI from the file*/
@@ -81,7 +81,7 @@ void GUI::create(const char* pathToMainBinary) {
     /*Player's drag and drop vbox*/
     xml->get_widget("vbxPlayerBox", vbxPlayerBox);
     std::list<Gtk::TargetEntry> playerTgtList;
-    vbxPlayerBox->drag_dest_set(playerTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
+    //vbxPlayerBox->drag_dest_set(playerTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
     vbxPlayerBox->drag_dest_add_uri_targets();
     vbxPlayerBox->drag_dest_add_text_targets();
 
@@ -172,7 +172,7 @@ void GUI::create(const char* pathToMainBinary) {
 
 
     std::list<Gtk::TargetEntry> playlistTgtList;
-    vbxPlaylist->drag_dest_set(playlistTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
+//    vbxPlaylist->drag_dest_set(playlistTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
     vbxPlaylist->drag_dest_add_uri_targets();
     vbxPlaylist->drag_dest_add_text_targets();
 
@@ -256,7 +256,7 @@ void GUI::updateAfterSAPLoad(Glib::ustring filename, int songNumber, int songCou
 
     /*Update tune info and tip*/
     txvTuneInfo->get_buffer()->set_text(info);
-    toolTips.set_tip(*lblFilename, info);
+    //toolTips.set_tip(*lblFilename, info);
 
 
     /*Update counters*/
@@ -524,25 +524,19 @@ void GUI::on_btnBrowseSTIL() {
 
 }
 
-void GUI::setupPlaylistView(Gtk::TreeModelColumn<bool> *tmc0, Gtk::TreeModelColumn<Glib::ustring> *tmc1, Glib::RefPtr<Gtk::ListStore> model) {
+void GUI::setupPlaylistView(Gtk::TreeModelColumn<Glib::ustring> *tmc0, Glib::RefPtr<Gtk::ListStore> model) {
 
-    static Gtk::TreeViewColumn tvc0("0", *tmc0);
-    static Gtk::TreeViewColumn tvc1("1", *tmc1);
-
-    tvc0.set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
+    static Gtk::TreeViewColumn tvc1("Markup",*tmc0); /*Markup*/
     tvc1.set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
-
-    tvc0.set_fixed_width(25);
-
-    trvPlaylist->append_column(tvc0);
     trvPlaylist->append_column(tvc1);
-
-    Gtk::CellRenderer* cr = trvPlaylist->get_column_cell_renderer(0);
-    Gtk::CellRendererToggle* crt = (Gtk::CellRendererToggle*)cr;
-    crt->set_radio();
-    crt->set_active(false);
-
+    
+    /*Text cell renderer*/
+    Gtk::CellRenderer* cr = dynamic_cast<Gtk::CellRendererText*>(trvPlaylist->get_column_cell_renderer(0));
+    tvc1.clear_attributes(*cr);
+    tvc1.add_attribute(*cr,Glib::ustring("markup"),0); /*Markup taken from MODEL column 1*/
+    
     trvPlaylist->set_model(model);
+    
     trvPlaylist->get_selection()->set_mode(Gtk::SELECTION_MULTIPLE);
 
 }
