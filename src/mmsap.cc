@@ -35,6 +35,7 @@
 
 /*Prototypes*/
 void loadAndPlayFile(Glib::ustring fspec, bool shout = true);
+int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line);
 
 
 /*Global variables*/
@@ -53,10 +54,16 @@ int main(int argc, char** argv) {
 
     savePreferencesFlag = true;
 
+    /*Initialize application*/
+    Glib::RefPtr<Gtk::Application> app = Gtk::Application::create("cz.baktra.mmsap",Gio::APPLICATION_HANDLES_COMMAND_LINE);
+    app->register_application();
+    app->signal_command_line().connect(sigc::ptr_fun(onCommandLine), false);
 
-    /*Initialize library*/
-    Gtk::Main kit(argc, argv, false);
-
+    if (app->is_remote()) {
+        app->run(argc,argv);
+        return 0;
+    }
+    
     /*Now initialize main objects*/
     Preferences xprefs;
     preferences = &xprefs;
@@ -69,13 +76,9 @@ int main(int argc, char** argv) {
     Asma xasma;
     asma = &xasma;
 
-
-
     /*Load preferences*/
     preferences->load();
     aPlayer->updateConfig();
-
-
 
     /*Create GUI*/
     gui->create(argv[0]);
@@ -87,19 +90,16 @@ int main(int argc, char** argv) {
     /*Update version*/
     gui->setVersionString(MMSAP_VERSION_STRING, ASAPInfo_VERSION);
 
-
     /*Try to load sepcified tune from command line*/
     Glib::ustring rfsp = "";
     if (argc > 1) {
         rfsp = Glib::ustring(argv[1]);
     }
 
-
     if (rfsp != "") {
         loadAndPlayFile(rfsp, false);
         playlist->clearCurrentColumn();
     }
-
 
     /*Try to load last playlist and don't complain when it fails*/
     if (playlist->load(preferences->getLastPlaylist()) < 0) {
@@ -116,7 +116,8 @@ int main(int argc, char** argv) {
     }
 
     /*Show main window*/
-    Gtk::Main::run(*(gui->wndMain));
+    app->add_window(*(gui->wndMain));
+    app->run();
 
     /*Save preferences*/
     if (savePreferencesFlag == true) {
@@ -476,6 +477,25 @@ void on_browseAndPlay() {
 
 void on_browseAndPlayClose() {
     gui->fcdBrowseAndPlay->hide();
+}
+
+/*Processing command line*/
+int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line) {
+    
+    /*Get the arguments*/
+    int argc;
+    char** arguments = command_line->get_arguments(argc);
+
+    /*If no sap file specified, just return*/
+    if (argc<2) return 0;
+    
+    Glib::ustring fspec(arguments[1]);
+    loadAndPlayFile(Glib::ustring(fspec),false);
+
+    printf(fspec.c_str());
+
+    return 0;
+
 }
 
 
