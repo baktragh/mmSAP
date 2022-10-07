@@ -1,7 +1,7 @@
-/* mmSAP-win32  v2.1.5
+/* mmSAP-win32  v3.0.0
    
    SAP (Slight atari player) player based on ASAP library
-   Copyright (C) 2009-2019 Michael Kalouš <zylon@post.cz>
+   Copyright (C) 2009-2022 Michael Kalouš <zylon@post.cz>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,10 +27,9 @@
 #include "alsaplayer.h"
 #include "gui.h"
 #include "playlist.h"
-//#include "remote.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP-win32 2.1.5"
+#define MMSAP_VERSION_STRING "mmSAP-win32 3.0.0"
 
 
 /*Prototypes*/
@@ -84,7 +83,7 @@ int main(int argc, char** argv) {
     /*Update GUI according to preferences*/
     gui->updatePreferencesChanged(preferences, true);
     /*Playlist Tree View setup*/
-    gui->setupPlaylistView(&(playlist->getColumns()->clmCurrent), &(playlist->getColumns()->clmFilename), playlist->getModel());
+    gui->setupPlaylistView(&(playlist->getColumns()->clmMarkup), playlist->getModel());
     /*Update version*/
     gui->setVersionString(MMSAP_VERSION_STRING, ASAPInfo_VERSION);
 
@@ -222,6 +221,7 @@ void on_quitInvoke() {
 
 bool on_wndMainClose(GdkEventAny* evt) {
     quit(false);
+    return true;
 }
 
 /*Preferences *****************************************************************/
@@ -240,6 +240,8 @@ void on_preferencesInvoke() {
 
 bool on_preferencesClose(GdkEventAny* evt) {
     gui->dlgPreferences->hide();
+    return true;
+
 }
 
 /*Advanced controls toggle ****************************************************/
@@ -305,7 +307,7 @@ void on_playlistItemActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewCol
     loadAndPlayFile(row.get_value(playlist->getColumns()->clmFilespec));
     /*Update current column*/
     playlist->clearCurrentColumn();
-    row.set_value(playlist->getColumns()->clmCurrent, true);
+    playlist->setRowActive(row,true);
 
 }
 
@@ -422,7 +424,7 @@ void loadAndPlayFile(Glib::ustring fspec, bool shout) {
         sti += '\n';
         sti += et;
         gui->txvTuneInfo->get_buffer()->set_text(sti);
-        gui->toolTips.set_tip(*(gui->lblFilename), Glib::ustring(g_strstrip((gchar*) sti.c_str())));
+        //gui->toolTips.set_tip(*(gui->lblFilename), Glib::ustring(g_strstrip((gchar*) sti.c_str())));
     }
 
 }

@@ -47,7 +47,7 @@ void GUI::create(const char* pathToMainBinary) {
     GFile* file = g_file_new_for_path(pathToMainBinary);
     GFile* parent = g_file_get_parent(file);
     GFile* uberParent = g_file_get_parent(parent);
-    Glib::ustring uiFilespec = Glib::ustring(g_file_get_path(uberParent) + Glib::ustring("\\share\\mmsap\\mmsap2.ui"));
+    Glib::ustring uiFilespec = Glib::ustring(g_file_get_path(uberParent) + Glib::ustring("\\share\\mmsap\\mmsap.ui"));
 
     /*Free GFiles allocated to determine path to the UI file*/
     g_object_unref(uberParent);
