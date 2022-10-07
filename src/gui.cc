@@ -168,11 +168,14 @@ void GUI::create(const char* pathToMainBinary) {
     xml->get_widget("mniPlaylistRemoveSelected", mniPlaylistRemoveSelected);
     xml->get_widget("vbxPlaylist", vbxPlaylist);
 
-
+    /*Setup DnD for playlist*/
     std::list<Gtk::TargetEntry> playlistTgtList;
     vbxPlaylist->drag_dest_set(Gtk::DEST_DEFAULT_ALL,Gdk::ACTION_DEFAULT|Gdk::ACTION_MOVE|Gdk::ACTION_COPY);
     vbxPlaylist->drag_dest_add_uri_targets();
     vbxPlaylist->drag_dest_add_text_targets();
+
+    /*Initialize support for the "recently used"*/
+    recentManager = Gtk::RecentManager::get_default();
 
 }
 

@@ -108,6 +108,7 @@ public:
     Gtk::MenuItem* mniAddPlayerFile;
 
     Gtk::Box* vbxPlaylist;
+    Glib::RefPtr<Gtk::RecentManager> recentManager;
 
 
     /*Establishment*/

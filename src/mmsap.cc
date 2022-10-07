@@ -131,12 +131,16 @@ int main(int argc, char** argv) {
 /*Loading SAP*/
 void on_loadSAP() {
 
-    int r = gui->fcdLoad->run();
+    gui->fcdLoad->set_current_folder(gui->fcdLoad->get_current_folder()); 
+    int r=gui->fcdLoad->run();
     gui->fcdLoad->hide();
-
-    if (r == 1) {
-        loadAndPlayFile(gui->fcdLoad->get_filename());
+    
+    if (r==1) {
+        Glib::RefPtr<Gio::File> pickedFileRef=gui->fcdLoad->get_file();
+        loadAndPlayFile(pickedFileRef->get_path());
         playlist->clearCurrentColumn();
+        gui->recentManager->add_item(pickedFileRef->get_uri());
+        gui->fcdLoad->set_current_folder(pickedFileRef->get_parent()->get_path());
     }
 
 }
@@ -455,15 +459,18 @@ bool on_fcdBrowseAndPlayClose(GdkEventAny* e) {
 
 void on_fcdBrowseAndPlayFileActivated() {
 
-    Glib::ustring fspec = gui->fcdBrowseAndPlay->get_filename();
-    if (playlist->isFile(fspec)) {
-        loadAndPlayFile(fspec, false);
+     Glib::RefPtr<Gio::File> pickedFileRef = gui->fcdBrowseAndPlay->get_file();
+    
+    if (playlist->isFile(pickedFileRef->get_path())) {
+        loadAndPlayFile(pickedFileRef->get_path(),false);
         playlist->clearCurrentColumn();
+        gui->recentManager->add_item(pickedFileRef->get_uri());
     }
 }
 
 void on_browseAndPlay() {
 
+    gui->fcdBrowseAndPlay->set_current_folder(gui->fcdBrowseAndPlay->get_current_folder());
     gui->fcdBrowseAndPlay->show();
 }
 
