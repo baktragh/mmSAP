@@ -138,6 +138,7 @@ public:
 
 private:
     sigc::connection hscSeekingConnection;
+    Gtk::TreeViewColumn* tvcPlaylistMarkup;
 
     bool on_hscSeekingButtonPressed(GdkEventButton* btn);
     bool on_hscSeekingButtonReleased(GdkEventButton* btn);

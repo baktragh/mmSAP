@@ -242,7 +242,7 @@ void Playlist::setRowActive(Gtk::TreeModel::Row& row, bool active) {
     /*Make active*/
     if (active==true) {
         row.set_value(columns.clmCurrent,true);
-        row.set_value(columns.clmMarkup,Glib::ustring("<b>AAA"+row.get_value(columns.clmFilename)+"</b>AAAA"));
+        row.set_value(columns.clmMarkup,Glib::ustring("<b>"+row.get_value(columns.clmFilename)+"</b>"));
     }
     /*Make inactive*/
     else {

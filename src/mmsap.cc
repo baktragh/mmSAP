@@ -36,7 +36,6 @@
 void loadAndPlayFile(Glib::ustring fspec, bool shout = true);
 
 
-
 /*Global variables*/
 Preferences* preferences;
 GUI* gui;
@@ -115,18 +114,27 @@ int main(int argc, char** argv) {
         asma->parse();
     }
 
+#ifdef DEBUG_PRINTOUTS
+    printf("Before run\n");
+    fflush(stdout);
+#endif
 
     /*Show main window*/
     Gtk::Main::run(*(gui->wndMain));
 
+#ifdef DEBUG_PRINTOUTS
+    printf("After run\n");
+    fflush(stdout);
+#endif
 
     /*Save preferences*/
     if (savePreferencesFlag == true) {
-        preferences->save();
+        //preferences->save();
     }
 
 #ifdef DEBUG_PRINTOUTS
     printf("Normal exit\n");
+    fflush(stdout);
 #endif
 
     return (EXIT_SUCCESS);
