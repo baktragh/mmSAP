@@ -140,7 +140,18 @@ void on_loadSAP() {
         Glib::RefPtr<Gio::File> pickedFileRef=gui->fcdLoad->get_file();
         loadAndPlayFile(pickedFileRef->get_path());
         playlist->clearCurrentColumn();
-        gui->recentManager->add_item(pickedFileRef->get_uri());
+
+        /*Create a private recent item*/
+        Gtk::RecentManager::Data recentData;
+        recentData.display_name = pickedFileRef->get_basename();
+        recentData.description = "";
+        recentData.mime_type = "";
+        recentData.app_name = "mmSAP";
+        recentData.app_exec = "mmsap";
+        recentData.groups = std::vector<Glib::ustring>();
+        recentData.is_private = true;
+
+        gui->recentManager->add_item(pickedFileRef->get_uri(),recentData);
         gui->fcdLoad->set_current_folder(pickedFileRef->get_parent()->get_path());
     }
 
@@ -332,6 +343,8 @@ void on_savePlaylist() {
 }
 
 void on_loadPlaylist() {
+
+    gui->fcdPlaylist->set_current_folder(gui->fcdPlaylist->get_current_folder());
     gui->fcdPlaylist->set_action(Gtk::FILE_CHOOSER_ACTION_OPEN);
     int r = gui->fcdPlaylist->run();
     gui->fcdPlaylist->hide();

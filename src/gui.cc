@@ -257,8 +257,7 @@ void GUI::updateAfterSAPLoad(Glib::ustring filename, int songNumber, int songCou
 
     /*Update tune info and tip*/
     txvTuneInfo->get_buffer()->set_text(info);
-    //toolTips.set_tip(*lblFilename, info);
-
+    lblFilename->set_tooltip_text(info);
 
     /*Update counters*/
     updateAfterSubsongChange(songNumber, songCount, duration);

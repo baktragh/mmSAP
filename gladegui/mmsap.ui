@@ -97,6 +97,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="margin-start">4</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
                   </object>
@@ -118,6 +119,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
+                        <property name="margin-start">4</property>
                         <property name="use-underline">True</property>
                         <property name="draw-indicator">True</property>
                       </object>
@@ -131,6 +133,8 @@
                       <object class="GtkEntry" id="entDefaultDirectory">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="margin-start">4</property>
+                        <property name="margin-end">4</property>
                         <property name="invisible-char">●</property>
                         <property name="width-chars">48</property>
                         <property name="primary-icon-activatable">False</property>
@@ -181,6 +185,7 @@
                       <object class="GtkLabel" id="label8">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">4</property>
                         <property name="label" translatable="yes">Silence detector limit (s): </property>
                         <property name="xalign">0</property>
                       </object>
@@ -217,6 +222,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="margin-start">2</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
                   </object>
@@ -233,6 +239,7 @@
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
                     <property name="tooltip-text" translatable="yes">Try to circumvent malformed NAME,DATE,AUTHOR tags</property>
+                    <property name="margin-start">2</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
                   </object>
@@ -265,12 +272,14 @@
                 <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <!-- n-columns=2 n-rows=2 -->
+                  <!-- n-columns=2 n-rows=4 -->
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="valign">start</property>
-                    <property name="hexpand">True</property>
+                    <property name="margin-start">4</property>
+                    <property name="margin-end">4</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
@@ -288,7 +297,10 @@
                       <object class="GtkSpinButton" id="spbVisualizationPeriod">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="halign">end</property>
+                        <property name="halign">start</property>
+                        <property name="margin-start">4</property>
+                        <property name="margin-end">4</property>
+                        <property name="hexpand">True</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                         <property name="adjustment">adjustment3</property>
@@ -306,7 +318,9 @@
                       <object class="GtkSpinButton" id="spbVisualizationDecrement">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="halign">end</property>
+                        <property name="halign">start</property>
+                        <property name="margin-start">4</property>
+                        <property name="margin-end">4</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                         <property name="adjustment">adjustment2</property>
@@ -335,27 +349,16 @@
                         <property name="top-attach">1</property>
                       </packing>
                     </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkBox" id="hbox20">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
                     <child>
                       <object class="GtkLabel" id="label22">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
                         <property name="label" translatable="yes">Synchro:</property>
                       </object>
                       <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">2</property>
                       </packing>
                     </child>
                     <child>
@@ -367,30 +370,34 @@
                         <property name="value-pos">right</property>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
+                        <property name="left-attach">0</property>
+                        <property name="top-attach">3</property>
+                        <property name="width">2</property>
                       </packing>
+                    </child>
+                    <child>
+                      <placeholder/>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
-                    <property name="padding">7</property>
-                    <property name="position">1</property>
+                    <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="margin-start">4</property>
                     <property name="label">You have to restart playback to apply these settings !</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">False</property>
                     <property name="padding">4</property>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
@@ -426,6 +433,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
+                        <property name="margin-start">4</property>
                         <property name="label" translatable="yes">ASMA directory:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -439,6 +447,7 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
+                        <property name="margin-start">4</property>
                         <property name="label" translatable="yes">STIL database file:</property>
                         <property name="xalign">0</property>
                       </object>
@@ -454,6 +463,7 @@
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
                         <property name="halign">end</property>
+                        <property name="margin-start">3</property>
                         <property name="hexpand">False</property>
                         <property name="vexpand">False</property>
                         <property name="use-underline">True</property>
@@ -470,6 +480,7 @@
                         <property name="can-focus">True</property>
                         <property name="receives-default">False</property>
                         <property name="halign">end</property>
+                        <property name="margin-start">3</property>
                         <property name="hexpand">False</property>
                         <property name="vexpand">False</property>
                         <property name="use-underline">True</property>
@@ -486,8 +497,8 @@
                         <property name="tooltip-text" translatable="yes">Full path to the ASMA toplevel directory
 e.g. /mnt/multimedia/sounds/asma32</property>
                         <property name="valign">start</property>
-                        <property name="margin-start">3</property>
-                        <property name="margin-end">3</property>
+                        <property name="margin-start">2</property>
+                        <property name="margin-end">2</property>
                         <property name="margin-top">2</property>
                         <property name="margin-bottom">2</property>
                         <property name="hexpand">True</property>
@@ -507,8 +518,8 @@ e.g. /mnt/multimedia/sounds/asma32</property>
                         <property name="tooltip-text" translatable="yes">Full path to STIL.txt file
 e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                         <property name="valign">start</property>
-                        <property name="margin-start">3</property>
-                        <property name="margin-end">3</property>
+                        <property name="margin-start">2</property>
+                        <property name="margin-end">2</property>
                         <property name="margin-top">2</property>
                         <property name="margin-bottom">2</property>
                         <property name="hexpand">True</property>
@@ -524,7 +535,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
-                    <property name="fill">True</property>
+                    <property name="fill">False</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -535,6 +546,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
                     <property name="halign">start</property>
+                    <property name="margin-start">2</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
                   </object>
@@ -548,7 +560,9 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                   <object class="GtkLabel" id="label14">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="margin-start">4</property>
                     <property name="label">You have to restart mmSAP to apply these settings !</property>
+                    <property name="xalign">0</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -743,6 +757,148 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                   </object>
                 </child>
                 <child>
+                  <object class="GtkMenuItem">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">_Playlist</property>
+                    <property name="use-underline">True</property>
+                    <child type="submenu">
+                      <object class="GtkMenu">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <child>
+                          <object class="GtkMenuItem" id="mniAddFileToPlaylist">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">_Add file...</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniAddDirectoryToPlaylist">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Add _directory...</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniAddPlayerFile">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Add file from player</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSeparatorMenuItem">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniPlaylistRemoveSelected">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">_Remove selected items</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniPlaylistRemoveAll">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Remove all items</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniPlaylistTrimSelected">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">_Trim to selected items</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniPlaylistPurge">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Purge playlist</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSeparatorMenuItem">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Select</property>
+                            <property name="use-underline">True</property>
+                            <child type="submenu">
+                              <object class="GtkMenu">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <child>
+                                  <object class="GtkMenuItem" id="mniPlaylistSelectAll">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">_Select All</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkMenuItem" id="mniPlaylistSelectNone">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Select none</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                                <child>
+                                  <object class="GtkMenuItem" id="mniPlaylistSelectInvert">
+                                    <property name="visible">True</property>
+                                    <property name="can-focus">False</property>
+                                    <property name="label" translatable="yes">Invert selection</property>
+                                    <property name="use-underline">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkSeparatorMenuItem">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniLoadPlaylist">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">_Load playlist...</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkMenuItem" id="mniSavePlaylist">
+                            <property name="visible">True</property>
+                            <property name="can-focus">False</property>
+                            <property name="label" translatable="yes">Save _playlist...</property>
+                            <property name="use-underline">True</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                  </object>
+                </child>
+                <child>
                   <object class="GtkMenuItem" id="menuHelp">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
@@ -918,6 +1074,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblFilename">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">2</property>
                         <property name="label" translatable="yes">mmSAP-win32</property>
                         <property name="xalign">0</property>
                       </object>
@@ -932,6 +1089,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblElapsedTime">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">2</property>
                         <property name="label" translatable="yes">.</property>
                         <property name="single-line-mode">True</property>
                         <property name="xalign">0</property>
@@ -947,6 +1105,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblSongCounter">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="margin-start">2</property>
                         <property name="label" translatable="yes">.</property>
                         <property name="justify">right</property>
                         <property name="single-line-mode">True</property>
@@ -1283,189 +1442,6 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkBox" id="hbox4">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkMenuBar" id="menubar2">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <child>
-                          <object class="GtkMenuItem" id="mnuAdd">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Add</property>
-                            <child type="submenu">
-                              <object class="GtkMenu" id="mnuAdd_menu">
-                                <property name="can-focus">False</property>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniAddFileToPlaylist">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Add file</property>
-                                    <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniAddDirectoryToPlaylist">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Add directory</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniAddPlayerFile">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Add file from player</property>
-                                    <accelerator key="f" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkMenuItem" id="mnuRemove">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Rem</property>
-                            <child type="submenu">
-                              <object class="GtkMenu" id="mnuRemove_menu">
-                                <property name="can-focus">False</property>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistRemoveSelected">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Remove selected</property>
-                                    <accelerator key="Delete" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistRemoveAll">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Remove all</property>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistTrimSelected">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Trim selected</property>
-                                    <property name="use-underline">True</property>
-                                    <signal name="activate" handler="on_mniRemoveTrim_activate" swapped="no"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistPurge">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Purge playlist</property>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkMenuItem" id="mnuSelect">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">Sel</property>
-                            <child type="submenu">
-                              <object class="GtkMenu" id="mnuSelect_menu">
-                                <property name="visible">True</property>
-                                <property name="can-focus">False</property>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistSelectAll">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Select all</property>
-                                    <property name="use-underline">True</property>
-                                    <signal name="activate" handler="on_mniSelectAll_activate" swapped="no"/>
-                                    <accelerator key="a" signal="activate" modifiers="GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistSelectNone">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Select none</property>
-                                    <property name="use-underline">True</property>
-                                    <signal name="activate" handler="on_mniSelectNone_activate" swapped="no"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniPlaylistSelectInvert">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Invert selection</property>
-                                    <property name="use-underline">True</property>
-                                    <signal name="activate" handler="on_mniSelectInvert_activate" swapped="no"/>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                        <child>
-                          <object class="GtkMenuItem" id="mnuList">
-                            <property name="visible">True</property>
-                            <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">List</property>
-                            <child type="submenu">
-                              <object class="GtkMenu" id="mnuList_menu">
-                                <property name="can-focus">False</property>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniLoadPlaylist">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Load</property>
-                                    <accelerator key="l" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                                <child>
-                                  <object class="GtkMenuItem" id="mniSavePlaylist">
-                                    <property name="visible">True</property>
-                                    <property name="can-focus">False</property>
-                                    <property name="label" translatable="yes">Save</property>
-                                    <accelerator key="s" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkBox" id="hbox11">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <child>
-                          <placeholder/>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="expand">True</property>
-                        <property name="fill">True</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="menu-label">Playlist</property>
@@ -1782,43 +1758,66 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkLabel" id="label2">
+          <object class="GtkFrame">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label">&lt;b&gt;mmSAP-win32&lt;/b&gt;
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkLabel" id="label2">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label">&lt;b&gt;mmSAP-win32&lt;/b&gt;
 SAP player for Windows
-
 &lt;b&gt;Libraries used:&lt;/b&gt;
 ASAP, GTKmm, SDL2
-
 &lt;b&gt;Home page:&lt;/b&gt;
 https://github.com/baktragh/mmsap_win32</property>
-            <property name="use-markup">True</property>
-            <property name="xalign">0</property>
+                <property name="use-markup">True</property>
+                <property name="xalign">0</property>
+                <property name="yalign">0</property>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">About</property>
+              </object>
+            </child>
           </object>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <object class="GtkLabel" id="lblVersion">
+          <object class="GtkFrame">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="label" translatable="yes">-- VERSION --</property>
-            <property name="xalign">0</property>
+            <property name="label-xalign">0</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkLabel" id="lblVersion">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">-- VERSION --</property>
+                <property name="xalign">0</property>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="label" translatable="yes">Version info</property>
+              </object>
+            </child>
           </object>
           <packing>
-            <property name="expand">False</property>
-            <property name="fill">False</property>
-            <property name="padding">3</property>
+            <property name="expand">True</property>
+            <property name="fill">True</property>
+            <property name="padding">6</property>
             <property name="position">4</property>
           </packing>
         </child>
@@ -1827,11 +1826,16 @@ https://github.com/baktragh/mmsap_win32</property>
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <child>
-              <object class="GtkLabel" id="label3">
+              <object class="GtkFrame">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
-                <property name="label">&lt;b&gt;Keyboard controls:&lt;/b&gt;
-SPACE - PLAY/PAUSE
+                <property name="label-xalign">0</property>
+                <property name="shadow-type">in</property>
+                <child>
+                  <object class="GtkLabel" id="label3">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label">SPACE - PLAY/PAUSE
 S - STOP
 P - Previous subsong
 N - Next subsong
@@ -1840,12 +1844,21 @@ B - Previous tune
 L - Load tune
 Q - Quit
 X - Browse and play</property>
-                <property name="use-markup">True</property>
-                <property name="xalign">0</property>
+                    <property name="use-markup">True</property>
+                    <property name="xalign">0</property>
+                  </object>
+                </child>
+                <child type="label">
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="label" translatable="yes">Keyboard controls</property>
+                  </object>
+                </child>
               </object>
               <packing>
-                <property name="expand">False</property>
-                <property name="fill">False</property>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
                 <property name="position">0</property>
               </packing>
             </child>
