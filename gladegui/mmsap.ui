@@ -97,6 +97,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">4</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
@@ -108,29 +109,42 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox" id="vbox9">
+                  <object class="GtkCheckButton" id="chbUseDefaultDirectory">
+                    <property name="label">File choosers use default directory</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="halign">start</property>
+                    <property name="margin-start">4</property>
+                    <property name="use-underline">True</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="border-width">1</property>
-                    <property name="orientation">vertical</property>
                     <child>
-                      <object class="GtkCheckButton" id="chbUseDefaultDirectory">
-                        <property name="label">File choosers default to the following directory:</property>
+                      <object class="GtkLabel">
                         <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="receives-default">False</property>
-                        <property name="margin-start">4</property>
-                        <property name="use-underline">True</property>
-                        <property name="draw-indicator">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="label" translatable="yes">Default directory:</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
                         <property name="fill">False</property>
+                        <property name="padding">2</property>
                         <property name="position">0</property>
                       </packing>
                     </child>
                     <child>
                       <object class="GtkEntry" id="entDefaultDirectory">
+                        <property name="name">Default directory:</property>
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="margin-start">4</property>
@@ -139,22 +153,22 @@
                         <property name="width-chars">48</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
+                        <property name="secondary-icon-tooltip-text" translatable="yes">
+</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
-                        <property name="fill">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">2</property>
                         <property name="position">1</property>
                       </packing>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">True</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="expand">False</property>
+                    <property name="fill">False</property>
+                    <property name="position">2</property>
                   </packing>
-                </child>
-                <child>
-                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
@@ -187,7 +201,6 @@
                         <property name="can-focus">False</property>
                         <property name="margin-start">4</property>
                         <property name="label" translatable="yes">Silence detector limit (s): </property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -199,6 +212,7 @@
                       <object class="GtkScale" id="hscSilenceLimit">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="margin-end">2</property>
                         <property name="adjustment">adjustment4</property>
                         <property name="digits">0</property>
                         <property name="value-pos">right</property>
@@ -222,6 +236,7 @@
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">2</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
@@ -239,6 +254,7 @@
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
                     <property name="tooltip-text" translatable="yes">Try to circumvent malformed NAME,DATE,AUTHOR tags</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">2</property>
                     <property name="use-underline">True</property>
                     <property name="draw-indicator">True</property>
@@ -284,9 +300,11 @@
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
+                        <property name="margin-start">2</property>
+                        <property name="margin-end">2</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Visualization update period (ms):</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -338,11 +356,11 @@
                       <object class="GtkLabel" id="label23">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="margin-end">2</property>
                         <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Visualization decrement (units):</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -354,6 +372,8 @@
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
+                        <property name="margin-start">2</property>
+                        <property name="margin-end">2</property>
                         <property name="label" translatable="yes">Synchro:</property>
                       </object>
                       <packing>
@@ -366,6 +386,8 @@
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
                         <property name="adjustment">adjustment1</property>
+                        <property name="restrict-to-fill-level">False</property>
+                        <property name="fill-level">0</property>
                         <property name="digits">0</property>
                         <property name="value-pos">right</property>
                       </object>
@@ -389,9 +411,9 @@
                   <object class="GtkLabel" id="label16">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">4</property>
-                    <property name="label">You have to restart playback to apply these settings !</property>
-                    <property name="xalign">0</property>
+                    <property name="label">You have to restart playback to apply these settings!</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -435,7 +457,6 @@
                         <property name="halign">start</property>
                         <property name="margin-start">4</property>
                         <property name="label" translatable="yes">ASMA directory:</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -449,7 +470,6 @@
                         <property name="halign">start</property>
                         <property name="margin-start">4</property>
                         <property name="label" translatable="yes">STIL database file:</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="left-attach">0</property>
@@ -560,9 +580,9 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                   <object class="GtkLabel" id="label14">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="margin-start">4</property>
-                    <property name="label">You have to restart mmSAP to apply these settings !</property>
-                    <property name="xalign">0</property>
+                    <property name="label">You have to restart mmSAP to apply these settings!</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -716,7 +736,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                           <object class="GtkRadioMenuItem" id="mniRepNothing">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">_No progress</property>
+                            <property name="label" translatable="yes">_No repeat</property>
                             <property name="use-underline">True</property>
                             <property name="active">True</property>
                             <signal name="activate" handler="on_mniRepNothing_activate" swapped="no"/>
@@ -1074,9 +1094,9 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblFilename">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="label" translatable="yes">mmSAP-win32</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1089,10 +1109,10 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblElapsedTime">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="label" translatable="yes">.</property>
                         <property name="single-line-mode">True</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1105,11 +1125,11 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkLabel" id="lblSongCounter">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
+                        <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="label" translatable="yes">.</property>
                         <property name="justify">right</property>
                         <property name="single-line-mode">True</property>
-                        <property name="xalign">0</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1193,7 +1213,6 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                               <object class="GtkImage" id="image44">
                                 <property name="visible">True</property>
                                 <property name="can-focus">False</property>
-                                <property name="xalign">0</property>
                                 <property name="icon-name">media-playback-pause-symbolic</property>
                               </object>
                               <packing>
@@ -1593,7 +1612,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                       <object class="GtkFrame" id="frame2">
                         <property name="visible">True</property>
                         <property name="can-focus">False</property>
-                        <property name="label-xalign">0.5</property>
+                        <property name="label-xalign">0</property>
                         <child>
                           <object class="GtkBox" id="vbox3">
                             <property name="visible">True</property>
@@ -1767,6 +1786,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="halign">start</property>
                 <property name="label">&lt;b&gt;mmSAP-win32&lt;/b&gt;
 SAP player for Windows
 &lt;b&gt;Libraries used:&lt;/b&gt;
@@ -1774,7 +1794,6 @@ ASAP, GTKmm, SDL2
 &lt;b&gt;Home page:&lt;/b&gt;
 https://github.com/baktragh/mmsap_win32</property>
                 <property name="use-markup">True</property>
-                <property name="xalign">0</property>
                 <property name="yalign">0</property>
               </object>
             </child>
@@ -1802,8 +1821,8 @@ https://github.com/baktragh/mmsap_win32</property>
               <object class="GtkLabel" id="lblVersion">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
+                <property name="halign">start</property>
                 <property name="label" translatable="yes">-- VERSION --</property>
-                <property name="xalign">0</property>
               </object>
             </child>
             <child type="label">
@@ -1835,6 +1854,7 @@ https://github.com/baktragh/mmsap_win32</property>
                   <object class="GtkLabel" id="label3">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="halign">start</property>
                     <property name="label">SPACE - PLAY/PAUSE
 S - STOP
 P - Previous subsong
@@ -1845,7 +1865,6 @@ L - Load tune
 Q - Quit
 X - Browse and play</property>
                     <property name="use-markup">True</property>
-                    <property name="xalign">0</property>
                   </object>
                 </child>
                 <child type="label">

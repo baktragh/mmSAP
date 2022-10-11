@@ -13,7 +13,11 @@ add_executable( mmsap
   gui.cc
   playlist.cc
   preferences.cc
+  uidata.asm
 )
+
+#Compiler
+#target_compile_options (mmsap PUBLIC -DGDK_PIXBUF_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED)
 
 #Linker
 target_link_libraries(mmsap

@@ -54,7 +54,8 @@ void GUI::create(const char* pathToMainBinary) {
     g_object_unref(parent);
     g_object_unref(file);
 
-    Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file(uiFilespec);
+    //Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file(uiFilespec);
+    Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_string(&mmsap_ui_data);
 
     /*Main window and player*/
     xml->get_widget("wndMain", wndMain);
@@ -492,8 +493,8 @@ void GUI::on_btnBrowseASMADir() {
 
     asmaFcd.select_filename(entAsmaDirectory->get_text());
 
-    asmaFcd.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    asmaFcd.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    asmaFcd.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+    asmaFcd.add_button("Select", Gtk::RESPONSE_OK);
     k = asmaFcd.run();
 
     if (k == Gtk::RESPONSE_OK) {
@@ -509,8 +510,8 @@ void GUI::on_btnBrowseSTIL() {
 
     stilFcd.select_filename(entStilFile->get_text());
 
-    stilFcd.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    stilFcd.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    stilFcd.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+    stilFcd.add_button("Select", Gtk::RESPONSE_OK);
     k = stilFcd.run();
 
     if (k == Gtk::RESPONSE_OK) {

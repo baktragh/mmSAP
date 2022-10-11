@@ -1,4 +1,3 @@
-
 #ifndef _GUI_H
 #define _GUI_H
 
@@ -13,12 +12,10 @@
 #include <stdio.h>
 #include <string.h>
 
+extern char mmsap_ui_data;
+
 class GUI {
 public:
-
-    /*Tooltips*/
-    //Gtk::Tooltips toolTips;
-
 
     /*Window and player*/
     Gtk::Window* wndMain;
