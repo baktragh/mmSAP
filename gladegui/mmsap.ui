@@ -170,9 +170,6 @@
                     <property name="position">2</property>
                   </packing>
                 </child>
-                <child>
-                  <placeholder/>
-                </child>
               </object>
             </child>
             <child type="tab">
@@ -514,8 +511,8 @@
                       <object class="GtkEntry" id="entAsmaDirectory">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Full path to the ASMA toplevel directory
-e.g. /mnt/multimedia/sounds/asma32</property>
+                        <property name="tooltip-text" translatable="yes">Full path to the ASMA's toplevel directory
+</property>
                         <property name="valign">start</property>
                         <property name="margin-start">2</property>
                         <property name="margin-end">2</property>
@@ -535,8 +532,7 @@ e.g. /mnt/multimedia/sounds/asma32</property>
                       <object class="GtkEntry" id="entStilFile">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
-                        <property name="tooltip-text" translatable="yes">Full path to STIL.txt file
-e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
+                        <property name="tooltip-text" translatable="yes">Full path to STIL.txt file</property>
                         <property name="valign">start</property>
                         <property name="margin-start">2</property>
                         <property name="margin-end">2</property>
@@ -740,6 +736,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="use-underline">True</property>
                             <property name="active">True</property>
                             <signal name="activate" handler="on_mniRepNothing_activate" swapped="no"/>
+                            <accelerator key="0" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -750,6 +747,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="use-underline">True</property>
                             <property name="group">mniRepNothing</property>
                             <signal name="activate" handler="on_mniRepSubsong_activate" swapped="no"/>
+                            <accelerator key="1" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -760,6 +758,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="use-underline">True</property>
                             <property name="group">mniRepNothing</property>
                             <signal name="activate" handler="on_mniRepTune_activate" swapped="no"/>
+                            <accelerator key="2" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -770,6 +769,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="use-underline">True</property>
                             <property name="group">mniRepNothing</property>
                             <signal name="activate" handler="on_mniRepPlaylist_activate" swapped="no"/>
+                            <accelerator key="3" signal="activate" modifiers="GDK_MOD1_MASK"/>
                           </object>
                         </child>
                       </object>
@@ -792,6 +792,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">_Add file...</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="f" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -800,6 +801,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Add _directory...</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="d" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -808,6 +810,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Add file from player</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="f" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -822,6 +825,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">_Remove selected items</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="Delete" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -870,6 +874,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                                     <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">_Select All</property>
                                     <property name="use-underline">True</property>
+                                    <accelerator key="a" signal="activate" modifiers="GDK_CONTROL_MASK"/>
                                   </object>
                                 </child>
                                 <child>
@@ -878,6 +883,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                                     <property name="can-focus">False</property>
                                     <property name="label" translatable="yes">Select none</property>
                                     <property name="use-underline">True</property>
+                                    <accelerator key="a" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                                   </object>
                                 </child>
                                 <child>
@@ -904,6 +910,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">_Load playlist...</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="l" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                         <child>
@@ -912,6 +919,7 @@ e.g.: /mnt/multimedia/asma32/Docs/STIL.txt</property>
                             <property name="can-focus">False</property>
                             <property name="label" translatable="yes">Save _playlist...</property>
                             <property name="use-underline">True</property>
+                            <accelerator key="s" signal="activate" modifiers="GDK_SHIFT_MASK | GDK_CONTROL_MASK"/>
                           </object>
                         </child>
                       </object>
