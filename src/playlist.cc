@@ -41,7 +41,7 @@ bool Playlist::addDirectory(Glib::ustring dirspec) {
     Glib::ustring fspec;
     /*Must be existing regular file*/
     while ((fn = g_dir_read_name(d)) != NULL) {
-        fspec = dirspec + '\\' + fn;
+        fspec = dirspec + G_DIR_SEPARATOR + fn;
         b = g_file_test(fspec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
         if (b == TRUE) {
             addFile(fspec);
@@ -60,13 +60,13 @@ bool Playlist::addMultipleFilespecs(std::vector<Glib::ustring> *specs) {
     for (int i = 0; i < l; i++) {
         /*File or directory ?*/
         spec = (*specs)[i];
-        b = g_file_test(spec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+        b = Glib::file_test(spec, Glib::FILE_TEST_IS_REGULAR);
         if (b == TRUE) {
             addFile(spec);
             continue;
         }
 
-        b = g_file_test(spec.c_str(), (GFileTest) (G_FILE_TEST_IS_DIR));
+        b = Glib::file_test(spec, Glib::FILE_TEST_IS_DIR);
         if (b == TRUE) {
             addDirectory(spec);
         }
@@ -141,7 +141,7 @@ int Playlist::load(Glib::ustring fspec) {
         if (Glib::path_is_absolute(a) == true) {
             addFile(a);
         } else {
-            addFile(basepath + '\\' + a);
+            addFile(basepath + G_DIR_SEPARATOR + a);
         }
     }
     return 0;
@@ -387,7 +387,7 @@ void Playlist::sliceDragString(std::vector<Glib::ustring>* v, Glib::ustring drag
 }
 
 bool Playlist::isFile(Glib::ustring filespec) {
-    gboolean b = g_file_test(filespec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+    gboolean b = Glib::file_test(filespec,Glib::FILE_TEST_IS_REGULAR);
     if (b == TRUE) return true;
     return false;
 }

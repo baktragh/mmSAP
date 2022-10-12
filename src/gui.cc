@@ -43,18 +43,7 @@ void GUI::create(const char* pathToMainBinary) {
     /*Pre-initialization*/
     tickUpdateBlocked = false;
 
-    /*Determine path and load UI from the file*/
-    GFile* file = g_file_new_for_path(pathToMainBinary);
-    GFile* parent = g_file_get_parent(file);
-    GFile* uberParent = g_file_get_parent(parent);
-    Glib::ustring uiFilespec = Glib::ustring(g_file_get_path(uberParent) + Glib::ustring("\\share\\mmsap\\mmsap.ui"));
-
-    /*Free GFiles allocated to determine path to the UI file*/
-    g_object_unref(uberParent);
-    g_object_unref(parent);
-    g_object_unref(file);
-
-    //Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file(uiFilespec);
+    //Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file("");
     Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_string(&mmsap_ui_data);
 
     /*Main window and player*/
@@ -369,25 +358,27 @@ void GUI::updatePreferencesChanged(Preferences* prefs, bool startup) {
 
         /*Some file choosers can use either default one or last one*/
         if (defaultUsed == true) {
-            if (g_file_test(prefs->getDefaultDirectory().c_str(), G_FILE_TEST_IS_DIR) == TRUE) {
+            if (Glib::file_test(prefs->getDefaultDirectory(), Glib::FILE_TEST_IS_DIR)) {
                 fcdLoad->set_current_folder(prefs->getDefaultDirectory());
                 fcdBrowseAndPlay->set_current_folder(prefs->getDefaultDirectory());
                 fcdAddToPlaylist->set_current_folder(prefs->getDefaultDirectory());
             }
         }
+        /*If the default is not to be used, restore the last directory*/
         else {
-            if (g_file_test(prefs->getLastLoadDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+            if (Glib::file_test(prefs->getLastLoadDirectory(),Glib::FILE_TEST_IS_DIR)) {
                 fcdLoad->set_current_folder(prefs->getLastLoadDirectory());
             }
-            if (g_file_test(prefs->getLastBrowseAndPlayDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+            if (Glib::file_test(prefs->getLastBrowseAndPlayDirectory(),Glib::FILE_TEST_IS_DIR)) {
                 fcdBrowseAndPlay->set_current_folder(prefs->getLastBrowseAndPlayDirectory());
             }
-            if (g_file_test(prefs->getLastAddToPlaylistDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+            if (Glib::file_test(prefs->getLastAddToPlaylistDirectory(),Glib::FILE_TEST_IS_DIR)) {
                 fcdAddToPlaylist->set_current_folder(prefs->getLastAddToPlaylistDirectory());
             }
         }
 
-        if (g_file_test(prefs->getLastPlaylistDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+        /*Some file choosers never use the default value*/
+        if (Glib::file_test(prefs->getLastPlaylistDirectory(),Glib::FILE_TEST_IS_DIR)) {
                 fcdPlaylist->set_current_folder(prefs->getLastPlaylistDirectory());
         }
         

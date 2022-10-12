@@ -78,7 +78,7 @@ int AlsaPlayer::load(Glib::ustring filespec) {
     int flen = 0;
 
     /*Test whether file is regular file*/
-    b = g_file_test(filespec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+    b = Glib::file_test(filespec, Glib::FILE_TEST_IS_REGULAR);
     if (b == FALSE) {
         errorMessage = "Attempt to load something that is not regular file";
         return PLAYER_LP_LOAD_ERROR;
@@ -524,7 +524,7 @@ bool AlsaPlayer::handleRepeat() {
 }
 
 Glib::ustring AlsaPlayer::getFilename(Glib::ustring fspec) {
-    int fsp1 = fspec.find_last_of('\\');
+    int fsp1 = fspec.find_last_of(G_DIR_SEPARATOR);
     int fsp2 = fspec.find_last_of('/');
     int fsp = 0;
     if (fsp1 > fsp2) fsp = fsp1;

@@ -17,14 +17,14 @@ void Asma::initialize(Glib::ustring dir, Glib::ustring stil) {
     printf("Asma::initialize() testing: |%s|,|%s|\n", dir.c_str(), stil.c_str());
 #endif
 
-    b = g_file_test(dir.c_str(), (GFileTest) (G_FILE_TEST_IS_DIR));
+    b = Glib::file_test(dir, Glib::FILE_TEST_IS_DIR);
     if (b == false) return;
 
 #ifdef DEBUG_PRINTOUTS
     printf("Asma::initialize() ASMA directory exist\n");
 #endif
 
-    b = g_file_test(stil.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+    b = Glib::file_test(stil, Glib::FILE_TEST_IS_REGULAR);
     if (b == false) return;
 
 #ifdef DEBUG_PRINTOUTS
@@ -150,7 +150,7 @@ Glib::ustring Asma::getEntry(Glib::ustring fspec) {
     /*Reverse slashes*/
     k = rawKey.length();
     for (int i = 0; i < k; i++) {
-        if (rawKey.at(i) == '\\') key += '/';
+        if (rawKey.at(i) == G_DIR_SEPARATOR) key += '/';
         else key += rawKey.at(i);
     }
 
