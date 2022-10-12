@@ -18,6 +18,10 @@ Preferences::Preferences() {
     stilFile = "";
     normalizeSAPHeader = false;
     visualizationDecrement = 10;
+    lastLoadDirectory="";
+    lastBrowseAndPlayDirectory="";
+    lastPlaylistDirectory="";
+    lastAddToPlaylistDirectory="";
 }
 
 /* Setters and getters*/
@@ -143,6 +147,41 @@ void Preferences::setVisualizationDecrement(int d) {
     visualizationDecrement = d;
 }
 
+void Preferences::setLastLoadDirectory(Glib::ustring fspec) {
+    lastLoadDirectory=fspec;
+}
+
+void Preferences::setLastBrowseAndPlayDirectory(Glib::ustring fspec) {
+    lastBrowseAndPlayDirectory=fspec;
+}
+
+void Preferences::setLastPlaylistDirectory(Glib::ustring fspec) {
+    lastPlaylistDirectory=fspec;
+
+}
+
+void Preferences::setLastAddToPlaylistDirectory(Glib::ustring fspec) {
+    lastAddToPlaylistDirectory=fspec;
+
+}
+
+Glib::ustring Preferences::getLastLoadDirectory() {
+    return lastLoadDirectory;
+}
+
+Glib::ustring Preferences::getLastBrowseAndPlayDirectory() {
+    return lastBrowseAndPlayDirectory;
+}
+
+Glib::ustring Preferences::getLastPlaylistDirectory() {
+    return lastPlaylistDirectory;
+}
+
+Glib::ustring Preferences::getLastAddToPlaylistDirectory() {
+    return lastAddToPlaylistDirectory;
+}
+
+
 /* KeyFile handling *********************************************************/
 
 int Preferences::getIntProperty(const char* key, int dflt, int min, int max) {
@@ -223,6 +262,12 @@ void Preferences::load() {
     useStilFile = getBooleanProperty("use_stil_file", false);
     normalizeSAPHeader = getBooleanProperty("normalize_sap_header", false);
     visualizationDecrement = getIntProperty("visualization_decrement", 10, 5, 100);
+
+    lastLoadDirectory = getStringProperty("last_dir_load","");
+    lastBrowseAndPlayDirectory = getStringProperty("last_dir_browse_and_play","");
+    lastPlaylistDirectory = getStringProperty("last_dir_playlist","");
+    lastAddToPlaylistDirectory = getStringProperty("last_dir_add_to_playlist","");
+    
 }
 
 void Preferences::save() {
@@ -249,6 +294,11 @@ void Preferences::save() {
     g_key_file_set_boolean(keyFile, "mmsap", "use_stil_file", useStilFile ? 1 : 0);
     g_key_file_set_boolean(keyFile, "mmsap", "normalize_sap_header", normalizeSAPHeader ? 1 : 0);
     g_key_file_set_integer(keyFile, "mmsap", "visualization_decrement", visualizationDecrement);
+    g_key_file_set_string(keyFile,"mmsap","last_dir_load",lastLoadDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_browse_and_play",lastBrowseAndPlayDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_playlist",lastPlaylistDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_add_to_playlist",lastAddToPlaylistDirectory.c_str());
+
     /*Config file specifier*/
     Glib::ustring fspec(g_get_user_config_dir());
     fspec += "/.mmsap";

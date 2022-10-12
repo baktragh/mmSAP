@@ -1,4 +1,3 @@
-
 #ifndef _PREFERENCES_H
 #define _PREFERENCES_H
 
@@ -34,6 +33,11 @@ public:
     bool getNormalizeSAPHeader();
     int getVisualizationDecrement();
 
+    Glib::ustring getLastLoadDirectory();
+    Glib::ustring getLastBrowseAndPlayDirectory();
+    Glib::ustring getLastAddToPlaylistDirectory();
+    Glib::ustring getLastPlaylistDirectory();
+
     void setRepeatMode(int mode);
     void setUseDefaultDirectory(bool use);
     void setDefaultDirectory(Glib::ustring dir);
@@ -50,6 +54,10 @@ public:
     void setNormalizeSAPHeader(bool b);
     void setVisualizationDecrement(int d);
 
+    void setLastLoadDirectory(Glib::ustring fspec);
+    void setLastBrowseAndPlayDirectory(Glib::ustring fspec);
+    void setLastAddToPlaylistDirectory(Glib::ustring fspec);
+    void setLastPlaylistDirectory(Glib::ustring fspec);
 
     void load();
     void save();
@@ -71,6 +79,13 @@ private:
     Glib::ustring stilFile;
     bool useStilFile;
     bool normalizeSAPHeader;
+
+    Glib::ustring lastLoadDirectory;
+    Glib::ustring lastBrowseAndPlayDirectory;
+    Glib::ustring lastPlaylistDirectory;
+    Glib::ustring lastAddToPlaylistDirectory;
+
+    
 
 
     int getIntProperty(const char* key, int dflt, int min, int max);

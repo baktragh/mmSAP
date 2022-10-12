@@ -360,24 +360,41 @@ void GUI::updatePreferencesChanged(Preferences* prefs, bool startup) {
     hscSilenceLimit->set_value((double) prefs->getSilenceLimit());
 
     /*Default directory*/
-    bool b = prefs->getUseDefaultDirectory();
-    chbUseDefaultDirectory->set_active(b);
+    bool defaultUsed = prefs->getUseDefaultDirectory();
+    chbUseDefaultDirectory->set_active(defaultUsed);
     entDefaultDirectory->set_text(prefs->getDefaultDirectory());
 
-    if (startup == true && b == true) {
+    /*Setup directories for file choosers*/
+    if (startup == true)  {
 
-        /*Setup directories that exist and are directories*/
-
-        /*Tune loading dialog*/
-        if (g_file_test(prefs->getDefaultDirectory().c_str(), G_FILE_TEST_IS_DIR) == TRUE) {
-            fcdLoad->set_current_folder(prefs->getDefaultDirectory());
-            fcdAddToPlaylist->set_current_folder(prefs->getDefaultDirectory());
-            fcdBrowseAndPlay->set_current_folder(prefs->getDefaultDirectory());
+        /*Some file choosers can use either default one or last one*/
+        if (defaultUsed == true) {
+            if (g_file_test(prefs->getDefaultDirectory().c_str(), G_FILE_TEST_IS_DIR) == TRUE) {
+                fcdLoad->set_current_folder(prefs->getDefaultDirectory());
+                fcdBrowseAndPlay->set_current_folder(prefs->getDefaultDirectory());
+                fcdAddToPlaylist->set_current_folder(prefs->getDefaultDirectory());
+            }
         }
+        else {
+            if (g_file_test(prefs->getLastLoadDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+                fcdLoad->set_current_folder(prefs->getLastLoadDirectory());
+            }
+            if (g_file_test(prefs->getLastBrowseAndPlayDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+                fcdBrowseAndPlay->set_current_folder(prefs->getLastBrowseAndPlayDirectory());
+            }
+            if (g_file_test(prefs->getLastAddToPlaylistDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+                fcdAddToPlaylist->set_current_folder(prefs->getLastAddToPlaylistDirectory());
+            }
+        }
+
+        if (g_file_test(prefs->getLastPlaylistDirectory().c_str(),G_FILE_TEST_IS_DIR)==TRUE) {
+                fcdPlaylist->set_current_folder(prefs->getLastPlaylistDirectory());
+        }
+        
     }
 
     /*Always first subsong*/
-    b = prefs->getAlwaysFirstSubsong();
+    bool b = prefs->getAlwaysFirstSubsong();
     chbAlwaysFirstSubsong->set_active(b);
 
     /*Normalize SAP header*/
@@ -432,11 +449,13 @@ void GUI::flushPreferences(Preferences* prefs) {
     prefs->setAsmaDirectory(entAsmaDirectory->get_text());
     prefs->setStilFile(entStilFile->get_text());
     prefs->setUseStilFile(chbUseStil->get_active());
+}
 
-    /*ALSA*/
-    //prefs->setAlsaDevice(entAlsaDevice->get_text());
-    //prefs->setAlwaysStereo(chbAlwaysStereo->get_active());
-
+void GUI::flushLastDirs(Preferences* prefs) {
+    prefs->setLastLoadDirectory(fcdLoad->get_current_folder());
+    prefs->setLastBrowseAndPlayDirectory(fcdBrowseAndPlay->get_current_folder());
+    prefs->setLastAddToPlaylistDirectory(fcdAddToPlaylist->get_current_folder());
+    prefs->setLastPlaylistDirectory(fcdPlaylist->get_current_folder());
 }
 
 void GUI::updateVisualization(int* volumes) {

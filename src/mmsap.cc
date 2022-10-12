@@ -30,7 +30,7 @@
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP-win32 3.0.0"
+#define MMSAP_VERSION_STRING "mmSAP-win32 3.0.0 beta2"
 
 
 /*Prototypes*/
@@ -215,6 +215,8 @@ void quit(bool fromRemote) {
         preferences->setMainWindowHeight(gui->wndMain->get_height());
     }
 
+    /*Remember also the last directories*/
+    gui->flushLastDirs(preferences);
 
     /*Destroy player*/
     aPlayer->destroy();

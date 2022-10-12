@@ -125,6 +125,7 @@ public:
     void runMessageDialog(Glib::ustring title, Glib::ustring mainText, Glib::ustring text);
     void updatePreferencesChanged(Preferences* prefs, bool startup = false);
     void flushPreferences(Preferences* prefs);
+    void flushLastDirs(Preferences* prefs);
     void setVersionString(const char* versionString, const char* asapVersionString);
 
     /*Visualization*/
