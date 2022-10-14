@@ -507,8 +507,6 @@ int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line)
     Glib::ustring fspec(arguments[1]);
     loadAndPlayFile(Glib::ustring(fspec),false);
 
-    printf(fspec.c_str());
-
     return 0;
 
 }
