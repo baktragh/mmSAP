@@ -1,8 +1,15 @@
 cmake_minimum_required(VERSION 3.18)
 
 #Directories for the compiler
-link_directories ( ${LIBGLADE_LIBRARY_DIRS} ${GTKMM_LIBRARY_DIRS}  ${GTHREAD2_LIBRARY_DIRS} ${SDL2_LIBRARY_DIRS} ${ASAP_LIB})
-include_directories (${LIBGLADE_INCLUDE_DIRS} ${GTKMM_INCLUDE_DIRS}  ${GTHREAD2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${ASAP_INCLUDE} )
+link_directories (  ${GTKMM_LIBRARY_DIRS}  ${GTHREAD2_LIBRARY_DIRS} ${SDL2_LIBRARY_DIRS} ${ASAP_LIB})
+include_directories ( ${GTKMM_INCLUDE_DIRS}  ${GTHREAD2_INCLUDE_DIRS} ${SDL2_INCLUDE_DIRS} ${ASAP_INCLUDE} )
+
+add_custom_command (
+  OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/uidata.h
+  COMMAND  cat ${CMAKE_CURRENT_SOURCE_DIR}/../gladegui/mmsap.ui | xxd -i  > ${CMAKE_CURRENT_SOURCE_DIR}/uidata.h
+  DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/../gladegui/mmsap.ui
+  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
 
 #Main mmsap module
 add_executable( mmsap
@@ -13,18 +20,14 @@ add_executable( mmsap
   gui.cc
   playlist.cc
   preferences.cc
-  uidata.asm
+  uidata.c
+  uidata.h
 )
-
-#Compiler
-#target_compile_options (mmsap PUBLIC -DGDK_PIXBUF_DISABLE_DEPRECATED -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEPRECATED)
 
 #Linker
 target_link_libraries(mmsap
- ${GTKMM_LIBRARIES} ${LIBGLADE_LIBRARIES} ${ASAP_LIB} ${SDL2_LIBRARIES}
- ${GTHREAD2_LIBRARIES}
+ ${GTKMM_LIBRARIES}  ${ASAP_LIB} ${SDL2_LIBRARIES} ${GTHREAD2_LIBRARIES}
 )
 
 #Files to install
 install(TARGETS mmsap RUNTIME DESTINATION bin)
-install(FILES gladegui/mmsap.ui DESTINATION share/mmsap)
