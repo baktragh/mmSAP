@@ -29,5 +29,13 @@ target_link_libraries(mmsap
  ${GTKMM_LIBRARIES}  ${ASAP_LIB} ${SDL2_LIBRARIES} ${GTHREAD2_LIBRARIES}
 )
 
+
+
+#Compiler option
+if (MSYS)
+target_compile_options(mmsap PRIVATE -mwindows)
+target_link_options(mmsap PRIVATE -mwindows)
+endif (MSYS)
+
 #Files to install
 install(TARGETS mmsap RUNTIME DESTINATION bin)
