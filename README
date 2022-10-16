@@ -1,8 +1,0 @@
-mmSAP_win32 is a Windows port of the mmSAP player.
-
-SAP is a special file format designed to store POKEY-based Atari XL/XE music.
-The biggest collection of such music is ASMA (Atari SAP Music Archive) that
-can be found at: http://asma.atari.org.
-
-ASAP library also allows you to load RMT,TMC,TM2,MPT,CMC files directly. For fresh
-information about supported formats, refer to the ASAP project.
