@@ -40,21 +40,11 @@ extern void on_addPlayerFile();
 
 void GUI::create(const char* pathToMainBinary) {
 
-    /*Pre initialization*/
+    /*Pre-initialization*/
     tickUpdateBlocked = false;
 
-    /*Determine path and load UI from the file*/
-    GFile* file = g_file_new_for_path(pathToMainBinary);
-    GFile* parent = g_file_get_parent(file);
-    GFile* uberParent = g_file_get_parent(parent);
-    Glib::ustring uiFilespec = Glib::ustring(g_file_get_path(uberParent) + Glib::ustring("\\share\\mmsap\\mmsap2.ui"));
-
-    /*Free GFiles allocated to determine path to the UI file*/
-    g_object_unref(uberParent);
-    g_object_unref(parent);
-    g_object_unref(file);
-
-    Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file(uiFilespec);
+    //Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_file("");
+    Glib::RefPtr<Gtk::Builder> xml = Gtk::Builder::create_from_string(&mmsap_ui_data);
 
     /*Main window and player*/
     xml->get_widget("wndMain", wndMain);
@@ -81,7 +71,7 @@ void GUI::create(const char* pathToMainBinary) {
     /*Player's drag and drop vbox*/
     xml->get_widget("vbxPlayerBox", vbxPlayerBox);
     std::list<Gtk::TargetEntry> playerTgtList;
-    vbxPlayerBox->drag_dest_set(playerTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
+    vbxPlayerBox->drag_dest_set(Gtk::DEST_DEFAULT_ALL,Gdk::ACTION_DEFAULT|Gdk::ACTION_MOVE|Gdk::ACTION_COPY);
     vbxPlayerBox->drag_dest_add_uri_targets();
     vbxPlayerBox->drag_dest_add_text_targets();
 
@@ -131,8 +121,6 @@ void GUI::create(const char* pathToMainBinary) {
     xml->get_widget("chbUseStil", chbUseStil);
     xml->get_widget("btnBrowseASMADir", btnBrowseASMADir);
     xml->get_widget("btnBrowseSTIL", btnBrowseSTIL);
-    xml->get_widget("entAlsaDevice", entAlsaDevice);
-    xml->get_widget("chbAlwaysStereo", chbAlwaysStereo);
     xml->get_widget("chbNormalizeSAPHeader", chbNormalizeSAPHeader);
 
 
@@ -170,11 +158,14 @@ void GUI::create(const char* pathToMainBinary) {
     xml->get_widget("mniPlaylistRemoveSelected", mniPlaylistRemoveSelected);
     xml->get_widget("vbxPlaylist", vbxPlaylist);
 
-
+    /*Setup DnD for playlist*/
     std::list<Gtk::TargetEntry> playlistTgtList;
-    vbxPlaylist->drag_dest_set(playlistTgtList, Gtk::DEST_DEFAULT_ALL, Gdk::ACTION_DEFAULT | Gdk::ACTION_MOVE | Gdk::ACTION_COPY);
+    vbxPlaylist->drag_dest_set(Gtk::DEST_DEFAULT_ALL,Gdk::ACTION_DEFAULT|Gdk::ACTION_MOVE|Gdk::ACTION_COPY);
     vbxPlaylist->drag_dest_add_uri_targets();
     vbxPlaylist->drag_dest_add_text_targets();
+
+    /*Initialize support for the "recently used"*/
+    recentManager = Gtk::RecentManager::get_default();
 
 }
 
@@ -256,8 +247,7 @@ void GUI::updateAfterSAPLoad(Glib::ustring filename, int songNumber, int songCou
 
     /*Update tune info and tip*/
     txvTuneInfo->get_buffer()->set_text(info);
-    toolTips.set_tip(*lblFilename, info);
-
+    lblFilename->set_tooltip_text(info);
 
     /*Update counters*/
     updateAfterSubsongChange(songNumber, songCount, duration);
@@ -359,24 +349,43 @@ void GUI::updatePreferencesChanged(Preferences* prefs, bool startup) {
     hscSilenceLimit->set_value((double) prefs->getSilenceLimit());
 
     /*Default directory*/
-    bool b = prefs->getUseDefaultDirectory();
-    chbUseDefaultDirectory->set_active(b);
+    bool defaultUsed = prefs->getUseDefaultDirectory();
+    chbUseDefaultDirectory->set_active(defaultUsed);
     entDefaultDirectory->set_text(prefs->getDefaultDirectory());
 
-    if (startup == true && b == true) {
+    /*Setup directories for file choosers*/
+    if (startup == true)  {
 
-        /*Setup directories that exist and are directories*/
-
-        /*Tune loading dialog*/
-        if (g_file_test(prefs->getDefaultDirectory().c_str(), G_FILE_TEST_IS_DIR) == TRUE) {
-            fcdLoad->set_current_folder(prefs->getDefaultDirectory());
-            fcdAddToPlaylist->set_current_folder(prefs->getDefaultDirectory());
-            fcdBrowseAndPlay->set_current_folder(prefs->getDefaultDirectory());
+        /*Some file choosers can use either default one or last one*/
+        if (defaultUsed == true) {
+            if (Glib::file_test(prefs->getDefaultDirectory(), Glib::FILE_TEST_IS_DIR)) {
+                fcdLoad->set_current_folder(prefs->getDefaultDirectory());
+                fcdBrowseAndPlay->set_current_folder(prefs->getDefaultDirectory());
+                fcdAddToPlaylist->set_current_folder(prefs->getDefaultDirectory());
+            }
         }
+        /*If the default is not to be used, restore the last directory*/
+        else {
+            if (Glib::file_test(prefs->getLastLoadDirectory(),Glib::FILE_TEST_IS_DIR)) {
+                fcdLoad->set_current_folder(prefs->getLastLoadDirectory());
+            }
+            if (Glib::file_test(prefs->getLastBrowseAndPlayDirectory(),Glib::FILE_TEST_IS_DIR)) {
+                fcdBrowseAndPlay->set_current_folder(prefs->getLastBrowseAndPlayDirectory());
+            }
+            if (Glib::file_test(prefs->getLastAddToPlaylistDirectory(),Glib::FILE_TEST_IS_DIR)) {
+                fcdAddToPlaylist->set_current_folder(prefs->getLastAddToPlaylistDirectory());
+            }
+        }
+
+        /*Some file choosers never use the default value*/
+        if (Glib::file_test(prefs->getLastPlaylistDirectory(),Glib::FILE_TEST_IS_DIR)) {
+                fcdPlaylist->set_current_folder(prefs->getLastPlaylistDirectory());
+        }
+        
     }
 
     /*Always first subsong*/
-    b = prefs->getAlwaysFirstSubsong();
+    bool b = prefs->getAlwaysFirstSubsong();
     chbAlwaysFirstSubsong->set_active(b);
 
     /*Normalize SAP header*/
@@ -405,11 +414,6 @@ void GUI::updatePreferencesChanged(Preferences* prefs, bool startup) {
     entStilFile->set_text(prefs->getStilFile());
     chbUseStil->set_active(prefs->getUseStilFile());
 
-    /*ALSA*/
-    entAlsaDevice->set_text(prefs->getAlsaDevice());
-    chbAlwaysStereo->set_active(prefs->getAlwaysStereo());
-
-
 }
 
 void GUI::flushPreferences(Preferences* prefs) {
@@ -436,11 +440,13 @@ void GUI::flushPreferences(Preferences* prefs) {
     prefs->setAsmaDirectory(entAsmaDirectory->get_text());
     prefs->setStilFile(entStilFile->get_text());
     prefs->setUseStilFile(chbUseStil->get_active());
+}
 
-    /*ALSA*/
-    prefs->setAlsaDevice(entAlsaDevice->get_text());
-    prefs->setAlwaysStereo(chbAlwaysStereo->get_active());
-
+void GUI::flushLastDirs(Preferences* prefs) {
+    prefs->setLastLoadDirectory(fcdLoad->get_current_folder());
+    prefs->setLastBrowseAndPlayDirectory(fcdBrowseAndPlay->get_current_folder());
+    prefs->setLastAddToPlaylistDirectory(fcdAddToPlaylist->get_current_folder());
+    prefs->setLastPlaylistDirectory(fcdPlaylist->get_current_folder());
 }
 
 void GUI::updateVisualization(int* volumes) {
@@ -497,8 +503,8 @@ void GUI::on_btnBrowseASMADir() {
 
     asmaFcd.select_filename(entAsmaDirectory->get_text());
 
-    asmaFcd.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    asmaFcd.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    asmaFcd.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+    asmaFcd.add_button("Select", Gtk::RESPONSE_OK);
     k = asmaFcd.run();
 
     if (k == Gtk::RESPONSE_OK) {
@@ -514,8 +520,8 @@ void GUI::on_btnBrowseSTIL() {
 
     stilFcd.select_filename(entStilFile->get_text());
 
-    stilFcd.add_button(Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
-    stilFcd.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    stilFcd.add_button("Cancel", Gtk::RESPONSE_CANCEL);
+    stilFcd.add_button("Select", Gtk::RESPONSE_OK);
     k = stilFcd.run();
 
     if (k == Gtk::RESPONSE_OK) {
@@ -524,25 +530,19 @@ void GUI::on_btnBrowseSTIL() {
 
 }
 
-void GUI::setupPlaylistView(Gtk::TreeModelColumn<bool> *tmc0, Gtk::TreeModelColumn<Glib::ustring> *tmc1, Glib::RefPtr<Gtk::ListStore> model) {
+void GUI::setupPlaylistView(Gtk::TreeModelColumn<Glib::ustring> *tmc0, Glib::RefPtr<Gtk::ListStore> model) {
 
-    static Gtk::TreeViewColumn tvc0("0", *tmc0);
-    static Gtk::TreeViewColumn tvc1("1", *tmc1);
-
-    tvc0.set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
-    tvc1.set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
-
-    tvc0.set_fixed_width(25);
-
-    trvPlaylist->append_column(tvc0);
-    trvPlaylist->append_column(tvc1);
-
-    Gtk::CellRenderer* cr = trvPlaylist->get_column_cell_renderer(0);
-    Gtk::CellRendererToggle* crt = (Gtk::CellRendererToggle*)cr;
-    crt->set_radio();
-    crt->set_active(false);
-
+    tvcPlaylistMarkup = new Gtk::TreeViewColumn("Markup",*tmc0);
+    tvcPlaylistMarkup->set_sizing(Gtk::TREE_VIEW_COLUMN_FIXED);
+    trvPlaylist->append_column(*tvcPlaylistMarkup);
+    
+    /*Text cell renderer*/
+    Gtk::CellRenderer* cr = dynamic_cast<Gtk::CellRendererText*>(trvPlaylist->get_column_cell_renderer(0));
+    tvcPlaylistMarkup->clear_attributes(*cr);
+    tvcPlaylistMarkup->add_attribute(*cr,Glib::ustring("markup"),0); /*Markup taken from MODEL column 1*/
+    
     trvPlaylist->set_model(model);
+    
     trvPlaylist->get_selection()->set_mode(Gtk::SELECTION_MULTIPLE);
 
 }

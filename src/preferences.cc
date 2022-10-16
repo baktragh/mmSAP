@@ -16,11 +16,12 @@ Preferences::Preferences() {
     lastPlaylist = "";
     asmaDirectory = "";
     stilFile = "";
-    alsaDevice = "default";
-    alwaysStereo = false;
-    alsaBufferSize = 2048;
     normalizeSAPHeader = false;
     visualizationDecrement = 10;
+    lastLoadDirectory="";
+    lastBrowseAndPlayDirectory="";
+    lastPlaylistDirectory="";
+    lastAddToPlaylistDirectory="";
 }
 
 /* Setters and getters*/
@@ -75,19 +76,6 @@ Glib::ustring Preferences::getStilFile() {
 
 bool Preferences::getUseStilFile() {
     return useStilFile;
-}
-
-Glib::ustring Preferences::getAlsaDevice() {
-    return alsaDevice;
-}
-
-bool Preferences::getAlwaysStereo() {
-    return alwaysStereo;
-
-}
-
-int Preferences::getAlsaBufferSize() {
-    return alsaBufferSize;
 }
 
 bool Preferences::getNormalizeSAPHeader() {
@@ -150,18 +138,6 @@ void Preferences::setUseStilFile(bool b) {
     useStilFile = b;
 }
 
-void Preferences::setAlsaDevice(Glib::ustring s) {
-    alsaDevice = s;
-}
-
-void Preferences::setAlwaysStereo(bool b) {
-    alwaysStereo = b;
-
-}
-
-void Preferences::setAlsaBufferSize(int bufsize) {
-    alsaBufferSize = bufsize;
-}
 
 void Preferences::setNormalizeSAPHeader(bool b) {
     normalizeSAPHeader = b;
@@ -171,12 +147,47 @@ void Preferences::setVisualizationDecrement(int d) {
     visualizationDecrement = d;
 }
 
+void Preferences::setLastLoadDirectory(Glib::ustring fspec) {
+    lastLoadDirectory=fspec;
+}
+
+void Preferences::setLastBrowseAndPlayDirectory(Glib::ustring fspec) {
+    lastBrowseAndPlayDirectory=fspec;
+}
+
+void Preferences::setLastPlaylistDirectory(Glib::ustring fspec) {
+    lastPlaylistDirectory=fspec;
+
+}
+
+void Preferences::setLastAddToPlaylistDirectory(Glib::ustring fspec) {
+    lastAddToPlaylistDirectory=fspec;
+
+}
+
+Glib::ustring Preferences::getLastLoadDirectory() {
+    return lastLoadDirectory;
+}
+
+Glib::ustring Preferences::getLastBrowseAndPlayDirectory() {
+    return lastBrowseAndPlayDirectory;
+}
+
+Glib::ustring Preferences::getLastPlaylistDirectory() {
+    return lastPlaylistDirectory;
+}
+
+Glib::ustring Preferences::getLastAddToPlaylistDirectory() {
+    return lastAddToPlaylistDirectory;
+}
+
+
 /* KeyFile handling *********************************************************/
 
 int Preferences::getIntProperty(const char* key, int dflt, int min, int max) {
     GError* e = NULL;
 
-    int r = g_key_file_get_integer(keyFile, "mmsap2", key, &e);
+    int r = g_key_file_get_integer(keyFile, "mmsap", key, &e);
     if (e != NULL) {
         g_error_free(e);
         e = NULL;
@@ -190,7 +201,7 @@ int Preferences::getIntProperty(const char* key, int dflt, int min, int max) {
 
 Glib::ustring Preferences::getStringProperty(const char* key, const char* dflt) {
     GError* e = NULL;
-    gchar* r = g_key_file_get_string(keyFile, "mmsap2", key, &e);
+    gchar* r = g_key_file_get_string(keyFile, "mmsap", key, &e);
     if (e != NULL) {
         g_error_free(e);
         e = NULL;
@@ -201,7 +212,7 @@ Glib::ustring Preferences::getStringProperty(const char* key, const char* dflt) 
 
 bool Preferences::getBooleanProperty(const char* key, bool dflt) {
     GError* e = NULL;
-    gboolean val = g_key_file_get_boolean(keyFile, "mmsap2", key, &e);
+    gboolean val = g_key_file_get_boolean(keyFile, "mmsap", key, &e);
     if (e != NULL) {
         g_error_free(e);
         e = NULL;
@@ -249,11 +260,14 @@ void Preferences::load() {
     asmaDirectory = getStringProperty("asma_directory", "");
     stilFile = getStringProperty("stil_file", "");
     useStilFile = getBooleanProperty("use_stil_file", false);
-    alsaDevice = getStringProperty("alsa_device", "hw:0,0");
-    alwaysStereo = getBooleanProperty("always_stereo", false);
-    alsaBufferSize = getIntProperty("alsa_buffer_size", 2048, 512, 524288);
     normalizeSAPHeader = getBooleanProperty("normalize_sap_header", false);
     visualizationDecrement = getIntProperty("visualization_decrement", 10, 5, 100);
+
+    lastLoadDirectory = getStringProperty("last_dir_load","");
+    lastBrowseAndPlayDirectory = getStringProperty("last_dir_browse_and_play","");
+    lastPlaylistDirectory = getStringProperty("last_dir_playlist","");
+    lastAddToPlaylistDirectory = getStringProperty("last_dir_add_to_playlist","");
+    
 }
 
 void Preferences::save() {
@@ -265,24 +279,26 @@ void Preferences::save() {
     if (keyFile == NULL) return;
 
     /*Specific items*/
-    g_key_file_set_integer(keyFile, "mmsap2", "repeat_mode", repeatMode);
-    g_key_file_set_integer(keyFile, "mmsap2", "silence_limit", silenceLimit);
-    g_key_file_set_boolean(keyFile, "mmsap2", "use_default_directory", useDefaultDirectory ? 1 : 0);
-    g_key_file_set_string(keyFile, "mmsap2", "default_directory", defaultDirectory.c_str());
-    g_key_file_set_boolean(keyFile, "mmsap2", "always_first_subsong", alwaysFirstSubsong ? 1 : 0);
-    g_key_file_set_integer(keyFile, "mmsap2", "visualization_period", visualizationPeriod);
-    g_key_file_set_integer(keyFile, "mmsap2", "main_window_height", mainWindowHeight);
-    g_key_file_set_boolean(keyFile, "mmsap2", "advanced_controls_shown_by_default", advancedControlsShownByDefault ? 1 : 0);
-    g_key_file_set_integer(keyFile, "mmsap2", "visualization_synchro", visualizationSynchro);
-    g_key_file_set_string(keyFile, "mmsap2", "last_playlist", lastPlaylist.c_str());
-    g_key_file_set_string(keyFile, "mmsap2", "asma_directory", asmaDirectory.c_str());
-    g_key_file_set_string(keyFile, "mmsap2", "stil_file", stilFile.c_str());
-    g_key_file_set_boolean(keyFile, "mmsap2", "use_stil_file", useStilFile ? 1 : 0);
-    g_key_file_set_string(keyFile, "mmsap2", "alsa_device", alsaDevice.c_str());
-    g_key_file_set_boolean(keyFile, "mmsap2", "always_stereo", alwaysStereo ? 1 : 0);
-    g_key_file_set_integer(keyFile, "mmsap2", "alsa_buffer_size", alsaBufferSize);
-    g_key_file_set_boolean(keyFile, "mmsap2", "normalize_sap_header", normalizeSAPHeader ? 1 : 0);
-    g_key_file_set_integer(keyFile, "mmsap2", "visualization_decrement", visualizationDecrement);
+    g_key_file_set_integer(keyFile, "mmsap", "repeat_mode", repeatMode);
+    g_key_file_set_integer(keyFile, "mmsap", "silence_limit", silenceLimit);
+    g_key_file_set_boolean(keyFile, "mmsap", "use_default_directory", useDefaultDirectory ? 1 : 0);
+    g_key_file_set_string(keyFile, "mmsap", "default_directory", defaultDirectory.c_str());
+    g_key_file_set_boolean(keyFile, "mmsap", "always_first_subsong", alwaysFirstSubsong ? 1 : 0);
+    g_key_file_set_integer(keyFile, "mmsap", "visualization_period", visualizationPeriod);
+    g_key_file_set_integer(keyFile, "mmsap", "main_window_height", mainWindowHeight);
+    g_key_file_set_boolean(keyFile, "mmsap", "advanced_controls_shown_by_default", advancedControlsShownByDefault ? 1 : 0);
+    g_key_file_set_integer(keyFile, "mmsap", "visualization_synchro", visualizationSynchro);
+    g_key_file_set_string(keyFile, "mmsap", "last_playlist", lastPlaylist.c_str());
+    g_key_file_set_string(keyFile, "mmsap", "asma_directory", asmaDirectory.c_str());
+    g_key_file_set_string(keyFile, "mmsap", "stil_file", stilFile.c_str());
+    g_key_file_set_boolean(keyFile, "mmsap", "use_stil_file", useStilFile ? 1 : 0);
+    g_key_file_set_boolean(keyFile, "mmsap", "normalize_sap_header", normalizeSAPHeader ? 1 : 0);
+    g_key_file_set_integer(keyFile, "mmsap", "visualization_decrement", visualizationDecrement);
+    g_key_file_set_string(keyFile,"mmsap","last_dir_load",lastLoadDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_browse_and_play",lastBrowseAndPlayDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_playlist",lastPlaylistDirectory.c_str());
+    g_key_file_set_string(keyFile,"mmsap","last_dir_add_to_playlist",lastAddToPlaylistDirectory.c_str());
+
     /*Config file specifier*/
     Glib::ustring fspec(g_get_user_config_dir());
     fspec += "/.mmsap";

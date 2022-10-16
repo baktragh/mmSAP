@@ -6,5 +6,3 @@ can be found at: http://asma.atari.org.
 
 ASAP library also allows you to load RMT,TMC,TM2,MPT,CMC files directly. For fresh
 information about supported formats, refer to the ASAP project.
-
-mmSAP_win32 is no longer actively developed. This repository is for its preservation.

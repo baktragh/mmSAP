@@ -13,13 +13,14 @@ bool Playlist::addFile(Glib::ustring fspec) {
     printf("Playlist::addFile(%s)\n", fspec.c_str());
 #endif
 
-    cibool ourFile = ASAPInfo_IsOurFile(fspec.c_str());
+    bool ourFile = ASAPInfo_IsOurFile(fspec.c_str());
     if (ourFile == FALSE) return false;
 
-    Gtk::TreeModel::Row row = *(lstore->append());
-    row.set_value(columns.clmFilespec, fspec);
-    row.set_value(columns.clmFilename, Glib::ustring(Glib::path_get_basename(fspec)));
-    row.set_value(columns.clmCurrent, false);
+    Gtk::TreeModel::Row row=*(lstore->append());
+    row.set_value(columns.clmFilespec,fspec);
+    row.set_value(columns.clmFilename,Glib::ustring(Glib::path_get_basename(fspec)));
+    row.set_value(columns.clmCurrent,false);
+    row.set_value(columns.clmMarkup,Glib::ustring(Glib::path_get_basename(fspec)));
 
     return true;
 }
@@ -40,7 +41,7 @@ bool Playlist::addDirectory(Glib::ustring dirspec) {
     Glib::ustring fspec;
     /*Must be existing regular file*/
     while ((fn = g_dir_read_name(d)) != NULL) {
-        fspec = dirspec + '\\' + fn;
+        fspec = dirspec + G_DIR_SEPARATOR + fn;
         b = g_file_test(fspec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
         if (b == TRUE) {
             addFile(fspec);
@@ -59,18 +60,20 @@ bool Playlist::addMultipleFilespecs(std::vector<Glib::ustring> *specs) {
     for (int i = 0; i < l; i++) {
         /*File or directory ?*/
         spec = (*specs)[i];
-        b = g_file_test(spec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+        b = Glib::file_test(spec, Glib::FILE_TEST_IS_REGULAR);
         if (b == TRUE) {
             addFile(spec);
             continue;
         }
 
-        b = g_file_test(spec.c_str(), (GFileTest) (G_FILE_TEST_IS_DIR));
+        b = Glib::file_test(spec, Glib::FILE_TEST_IS_DIR);
         if (b == TRUE) {
             addDirectory(spec);
         }
 
     }
+    
+    return true;
 }
 
 void Playlist::clearCurrentColumn() {
@@ -80,7 +83,7 @@ void Playlist::clearCurrentColumn() {
 
     while (iter != children.end()) {
         row = *iter;
-        row.set_value(columns.clmCurrent, false);
+        setRowActive(row,false);
         iter++;
     }
 }
@@ -138,7 +141,7 @@ int Playlist::load(Glib::ustring fspec) {
         if (Glib::path_is_absolute(a) == true) {
             addFile(a);
         } else {
-            addFile(basepath + '\\' + a);
+            addFile(basepath + G_DIR_SEPARATOR + a);
         }
     }
     return 0;
@@ -237,11 +240,14 @@ bool Playlist::continueToPrevious(Glib::ustring* fspec) {
 void Playlist::setRowActive(Gtk::TreeModel::Row& row, bool active) {
 
     /*Make active*/
-    if (active == true) {
-        row.set_value(columns.clmCurrent, true);
-    }        /*Make inactive*/
+    if (active==true) {
+        row.set_value(columns.clmCurrent,true);
+        row.set_value(columns.clmMarkup,Glib::ustring("<b>"+row.get_value(columns.clmFilename)+"</b>"));
+    }
+    /*Make inactive*/
     else {
-        row.set_value(columns.clmCurrent, false);
+        row.set_value(columns.clmCurrent,false);
+        row.set_value(columns.clmMarkup,row.get_value(columns.clmFilename));
     }
 }
 
@@ -381,7 +387,7 @@ void Playlist::sliceDragString(std::vector<Glib::ustring>* v, Glib::ustring drag
 }
 
 bool Playlist::isFile(Glib::ustring filespec) {
-    gboolean b = g_file_test(filespec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+    gboolean b = Glib::file_test(filespec,Glib::FILE_TEST_IS_REGULAR);
     if (b == TRUE) return true;
     return false;
 }

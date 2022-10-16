@@ -1,7 +1,8 @@
-/* mmSAP-win32  v2.1.5
+/* 
+   mmSAP-win32  v3.0.0
    
    SAP (Slight atari player) player based on ASAP library
-   Copyright (C) 2009-2019 Michael Kalouš <zylon@post.cz>
+   Copyright (C) 2009-2022 Michael Kalouš <zylon@post.cz>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -27,15 +28,14 @@
 #include "alsaplayer.h"
 #include "gui.h"
 #include "playlist.h"
-//#include "remote.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP-win32 2.1.5"
+#define MMSAP_VERSION_STRING "mmSAP-win32 3.0.0 beta2"
 
 
 /*Prototypes*/
 void loadAndPlayFile(Glib::ustring fspec, bool shout = true);
-
+int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line);
 
 
 /*Global variables*/
@@ -54,10 +54,16 @@ int main(int argc, char** argv) {
 
     savePreferencesFlag = true;
 
+    /*Initialize application*/
+    Glib::RefPtr<Gtk::Application> app = Gtk::Application::create("cz.baktra.mmsap",Gio::APPLICATION_HANDLES_COMMAND_LINE);
+    app->register_application();
+    app->signal_command_line().connect(sigc::ptr_fun(onCommandLine), false);
 
-    /*Initialize library*/
-    Gtk::Main kit(argc, argv, false);
-
+    if (app->is_remote()) {
+        app->run(argc,argv);
+        return 0;
+    }
+    
     /*Now initialize main objects*/
     Preferences xprefs;
     preferences = &xprefs;
@@ -70,13 +76,9 @@ int main(int argc, char** argv) {
     Asma xasma;
     asma = &xasma;
 
-
-
     /*Load preferences*/
     preferences->load();
     aPlayer->updateConfig();
-
-
 
     /*Create GUI*/
     gui->create(argv[0]);
@@ -84,10 +86,9 @@ int main(int argc, char** argv) {
     /*Update GUI according to preferences*/
     gui->updatePreferencesChanged(preferences, true);
     /*Playlist Tree View setup*/
-    gui->setupPlaylistView(&(playlist->getColumns()->clmCurrent), &(playlist->getColumns()->clmFilename), playlist->getModel());
+    gui->setupPlaylistView(&(playlist->getColumns()->clmMarkup), playlist->getModel());
     /*Update version*/
     gui->setVersionString(MMSAP_VERSION_STRING, ASAPInfo_VERSION);
-
 
     /*Try to load sepcified tune from command line*/
     Glib::ustring rfsp = "";
@@ -95,12 +96,10 @@ int main(int argc, char** argv) {
         rfsp = Glib::ustring(argv[1]);
     }
 
-
     if (rfsp != "") {
         loadAndPlayFile(rfsp, false);
         playlist->clearCurrentColumn();
     }
-
 
     /*Try to load last playlist and don't complain when it fails*/
     if (playlist->load(preferences->getLastPlaylist()) < 0) {
@@ -116,19 +115,14 @@ int main(int argc, char** argv) {
         asma->parse();
     }
 
-
     /*Show main window*/
-    Gtk::Main::run(*(gui->wndMain));
-
+    app->add_window(*(gui->wndMain));
+    app->run();
 
     /*Save preferences*/
     if (savePreferencesFlag == true) {
         preferences->save();
     }
-
-#ifdef DEBUG_PRINTOUTS
-    printf("Normal exit\n");
-#endif
 
     return (EXIT_SUCCESS);
 }
@@ -138,12 +132,27 @@ int main(int argc, char** argv) {
 /*Loading SAP*/
 void on_loadSAP() {
 
-    int r = gui->fcdLoad->run();
+    gui->fcdLoad->set_current_folder(gui->fcdLoad->get_current_folder()); 
+    int r=gui->fcdLoad->run();
     gui->fcdLoad->hide();
-
-    if (r == 1) {
-        loadAndPlayFile(gui->fcdLoad->get_filename());
+    
+    if (r==1) {
+        Glib::RefPtr<Gio::File> pickedFileRef=gui->fcdLoad->get_file();
+        loadAndPlayFile(pickedFileRef->get_path());
         playlist->clearCurrentColumn();
+
+        /*Create a private recent item*/
+        Gtk::RecentManager::Data recentData;
+        recentData.display_name = pickedFileRef->get_basename();
+        recentData.description = "";
+        recentData.mime_type = "";
+        recentData.app_name = "mmSAP";
+        recentData.app_exec = "mmsap";
+        recentData.groups = std::vector<Glib::ustring>();
+        recentData.is_private = true;
+
+        gui->recentManager->add_item(pickedFileRef->get_uri(),recentData);
+        gui->fcdLoad->set_current_folder(pickedFileRef->get_parent()->get_path());
     }
 
 }
@@ -206,6 +215,8 @@ void quit(bool fromRemote) {
         preferences->setMainWindowHeight(gui->wndMain->get_height());
     }
 
+    /*Remember also the last directories*/
+    gui->flushLastDirs(preferences);
 
     /*Destroy player*/
     aPlayer->destroy();
@@ -222,6 +233,7 @@ void on_quitInvoke() {
 
 bool on_wndMainClose(GdkEventAny* evt) {
     quit(false);
+    return true;
 }
 
 /*Preferences *****************************************************************/
@@ -240,6 +252,8 @@ void on_preferencesInvoke() {
 
 bool on_preferencesClose(GdkEventAny* evt) {
     gui->dlgPreferences->hide();
+    return true;
+
 }
 
 /*Advanced controls toggle ****************************************************/
@@ -305,7 +319,7 @@ void on_playlistItemActivated(const Gtk::TreeModel::Path& path, Gtk::TreeViewCol
     loadAndPlayFile(row.get_value(playlist->getColumns()->clmFilespec));
     /*Update current column*/
     playlist->clearCurrentColumn();
-    row.set_value(playlist->getColumns()->clmCurrent, true);
+    playlist->setRowActive(row,true);
 
 }
 
@@ -331,6 +345,8 @@ void on_savePlaylist() {
 }
 
 void on_loadPlaylist() {
+
+    gui->fcdPlaylist->set_current_folder(gui->fcdPlaylist->get_current_folder());
     gui->fcdPlaylist->set_action(Gtk::FILE_CHOOSER_ACTION_OPEN);
     int r = gui->fcdPlaylist->run();
     gui->fcdPlaylist->hide();
@@ -422,7 +438,7 @@ void loadAndPlayFile(Glib::ustring fspec, bool shout) {
         sti += '\n';
         sti += et;
         gui->txvTuneInfo->get_buffer()->set_text(sti);
-        gui->toolTips.set_tip(*(gui->lblFilename), Glib::ustring(g_strstrip((gchar*) sti.c_str())));
+        //gui->toolTips.set_tip(*(gui->lblFilename), Glib::ustring(g_strstrip((gchar*) sti.c_str())));
     }
 
 }
@@ -459,20 +475,40 @@ bool on_fcdBrowseAndPlayClose(GdkEventAny* e) {
 
 void on_fcdBrowseAndPlayFileActivated() {
 
-    Glib::ustring fspec = gui->fcdBrowseAndPlay->get_filename();
-    if (playlist->isFile(fspec)) {
-        loadAndPlayFile(fspec, false);
+     Glib::RefPtr<Gio::File> pickedFileRef = gui->fcdBrowseAndPlay->get_file();
+    
+    if (playlist->isFile(pickedFileRef->get_path())) {
+        loadAndPlayFile(pickedFileRef->get_path(),false);
         playlist->clearCurrentColumn();
+        gui->recentManager->add_item(pickedFileRef->get_uri());
     }
 }
 
 void on_browseAndPlay() {
 
+    gui->fcdBrowseAndPlay->set_current_folder(gui->fcdBrowseAndPlay->get_current_folder());
     gui->fcdBrowseAndPlay->show();
 }
 
 void on_browseAndPlayClose() {
     gui->fcdBrowseAndPlay->hide();
+}
+
+/*Processing command line*/
+int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line) {
+    
+    /*Get the arguments*/
+    int argc;
+    char** arguments = command_line->get_arguments(argc);
+
+    /*If no sap file specified, just return*/
+    if (argc<2) return 0;
+    
+    Glib::ustring fspec(arguments[1]);
+    loadAndPlayFile(Glib::ustring(fspec),false);
+
+    return 0;
+
 }
 
 

@@ -7,10 +7,10 @@ AlsaPlayer::AlsaPlayer(Preferences* pf, GUI* gi) {
     playerState = PLAYER_EMPTY;
     errorMessage = "No error";
     sapBuffer = NULL;
-    prefs = pf;
+    prefs = pf;      
     gui = gi;
 
-    state = ASAP_New();
+    state = ASAP_New();          
 
     updateConfig();
     blockSeekingUpdateFlag = false;
@@ -54,7 +54,7 @@ AlsaPlayer::~AlsaPlayer() {
 
 int AlsaPlayer::load(Glib::ustring filespec) {
 
-    cibool r = TRUE;
+    bool r = TRUE;
     gboolean b = FALSE;
 
 #ifdef DEBUG_PRINTOUTS
@@ -78,7 +78,7 @@ int AlsaPlayer::load(Glib::ustring filespec) {
     int flen = 0;
 
     /*Test whether file is regular file*/
-    b = g_file_test(filespec.c_str(), (GFileTest) (G_FILE_TEST_IS_REGULAR));
+    b = Glib::file_test(filespec, Glib::FILE_TEST_IS_REGULAR);
     if (b == FALSE) {
         errorMessage = "Attempt to load something that is not regular file";
         return PLAYER_LP_LOAD_ERROR;
@@ -389,6 +389,7 @@ int AlsaPlayer::closeSoundCard() {
 #ifdef DEBUG_PRINTOUTS
     printf("closeSoundCard:END\n");
 #endif
+    return 0;
 }
 
 void playLoopNormal(void *udata, Uint8 *stream, int len) {
@@ -473,9 +474,9 @@ void AlsaPlayer::updateConfig() {
 
 bool AlsaPlayer::handleRepeat() {
     /*Before this routine has opportunity to be called, state of the
-     *player could have chaged. If so, we do nothing. This routine
+     *player could have changed. If so, we do nothing. This routine
      *runs in the GTK+ thread, so sync is not needed. All methods that
-     *neutralize repeat handling (lika playOrPause() etc. must have this
+     *neutralize repeat handling (like playOrPause() etc. must have this
      *routine neutralized*/
 
     if (playerState != PLAYER_PLAYING || cancelRepeatFlag == true) {
@@ -517,11 +518,13 @@ bool AlsaPlayer::handleRepeat() {
             return false;
         }
     }
+    
+    return false;
 
 }
 
 Glib::ustring AlsaPlayer::getFilename(Glib::ustring fspec) {
-    int fsp1 = fspec.find_last_of('\\');
+    int fsp1 = fspec.find_last_of(G_DIR_SEPARATOR);
     int fsp2 = fspec.find_last_of('/');
     int fsp = 0;
     if (fsp1 > fsp2) fsp = fsp1;

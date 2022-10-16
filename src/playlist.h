@@ -41,6 +41,7 @@ public:
     Glib::RefPtr<Gtk::ListStore> getModel();
     ColumnModel* getColumns();
     bool isFile(Glib::ustring filespec);
+    void setRowActive(Gtk::TreeModel::Row& row, bool active);
 
 private:
     /*List store related*/
@@ -50,7 +51,6 @@ private:
     /*Drag and drop related*/
     Glib::ustring urlToFilespec(Glib::ustring url);
     void sliceDragString(std::vector<Glib::ustring>* v, Glib::ustring dragString);
-    void setRowActive(Gtk::TreeModel::Row& row, bool active);
 
 };
 
