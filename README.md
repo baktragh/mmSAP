@@ -40,7 +40,7 @@ Dependencies
    * pkg-config tool
    * CMake build tool
    * GCC C++ Compiler
-   * xxd utility
+   * xxd Tool
 
 Compiling and installing under GNU/Linux
 ========================================
@@ -53,14 +53,14 @@ Compiling and installing under GNU/Linux
    
 Compiling and installing under Microsoft Windows
 ================================================
-In general, it is recommended to use the available binary packages.c
+In general, it is recommended to use the available binary packages.
+If you need to build mmSAP from the source code, follow these steps:
 
    * Install MSYS2
-   * Install all dependencies
+   * Install all dependencies. The xxd tool is typically shipped with the vim package.
    * Change working directory to the directory with mmSAP sources and invoke the following commands
    
          cmake -G "MSYS Makefiles" .
          make
-         sudo make install
-         
+         make install     
          
