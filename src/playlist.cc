@@ -164,8 +164,8 @@ bool Playlist::continueToNext(Glib::ustring* fspec) {
         b = row.get_value(columns.clmCurrent);
         /*We found item with 'current' column set*/
         if (b == true) {
-            /*We clear the 'current' tag*/
-            row.set_value(columns.clmCurrent, false);
+            /*Deactivate the row*/
+            setRowActive(row, false);
             /*We will look for next row*/
             iter++;
             /*If not valid, we will revert it to first */
@@ -176,7 +176,7 @@ bool Playlist::continueToNext(Glib::ustring* fspec) {
              *filespec and we will set the 'current' column*/
             row = *iter;
             *fspec = row.get_value(columns.clmFilespec);
-            row.set_value(columns.clmCurrent, true);
+            setRowActive(row, true);
             return true;
         }
         iter++;
@@ -186,7 +186,7 @@ bool Playlist::continueToNext(Glib::ustring* fspec) {
     iter = children.begin();
     row = *iter;
     *fspec = row.get_value(columns.clmFilespec);
-    row.set_value(columns.clmCurrent, true);
+    setRowActive(row, true);
     return true;
 }
 
