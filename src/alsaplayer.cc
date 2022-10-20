@@ -34,7 +34,10 @@ AlsaPlayer::AlsaPlayer(Preferences* pf, GUI* gi) {
     currentSongCount = 0;
     cancelRepeatFlag = false;
 
-    SDL_setenv("SDL_AUDIODRIVER", "directsound", 1);
+    /*Workaround WIN32 SDL2 problem*/
+    #ifdef __WIN32__
+    SDL_SetHint("SDL_AUDIODRIVER", "directsound");
+    #endif
 
     if (SDL_Init(SDL_INIT_AUDIO) != 0) {
         printf("SDL_Init() Audio Initialization Failed\n");

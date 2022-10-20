@@ -670,7 +670,7 @@
                           <object class="GtkMenuItem" id="mniLoadSAP">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">_Load tune</property>
+                            <property name="label" translatable="yes">_Load tune...</property>
                             <property name="use-underline">True</property>
                             <accelerator key="l" signal="activate"/>
                           </object>
@@ -679,7 +679,7 @@
                           <object class="GtkMenuItem" id="mniBrowseAndPlay">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
-                            <property name="label" translatable="yes">_Browse and play</property>
+                            <property name="label" translatable="yes">_Browse and play...</property>
                             <property name="use-underline">True</property>
                             <accelerator key="x" signal="activate"/>
                           </object>
