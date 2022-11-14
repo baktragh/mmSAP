@@ -29,7 +29,7 @@
   </object>
   <object class="GtkDialog" id="dlgPreferences">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">mmSAP-win32 Preferences</property>
+    <property name="title" translatable="yes">mmSAP Preferences</property>
     <property name="modal">True</property>
     <property name="window-position">center</property>
     <property name="type-hint">dialog</property>
@@ -410,7 +410,8 @@
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="margin-start">4</property>
-                    <property name="label">You have to restart playback to apply these settings!</property>
+                    <property name="label">&lt;i&gt;Restart playback to apply the visualization settings&lt;/i&gt;</property>
+                    <property name="use-markup">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -447,6 +448,7 @@
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
+                    <property name="column-spacing">4</property>
                     <child>
                       <object class="GtkLabel" id="label4">
                         <property name="visible">True</property>
@@ -482,7 +484,6 @@
                         <property name="halign">end</property>
                         <property name="margin-start">3</property>
                         <property name="hexpand">False</property>
-                        <property name="vexpand">False</property>
                         <property name="use-underline">True</property>
                       </object>
                       <packing>
@@ -499,7 +500,6 @@
                         <property name="halign">end</property>
                         <property name="margin-start">3</property>
                         <property name="hexpand">False</property>
-                        <property name="vexpand">False</property>
                         <property name="use-underline">True</property>
                       </object>
                       <packing>
@@ -519,6 +519,7 @@
                         <property name="margin-bottom">2</property>
                         <property name="hexpand">True</property>
                         <property name="invisible-char">●</property>
+                        <property name="caps-lock-warning">False</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                       </object>
@@ -539,6 +540,7 @@
                         <property name="margin-bottom">2</property>
                         <property name="hexpand">True</property>
                         <property name="invisible-char">●</property>
+                        <property name="caps-lock-warning">False</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                       </object>
@@ -577,7 +579,8 @@
                     <property name="can-focus">False</property>
                     <property name="halign">start</property>
                     <property name="margin-start">4</property>
-                    <property name="label">You have to restart mmSAP to apply these settings!</property>
+                    <property name="label">&lt;i&gt;Restart mmSAP to apply the ASMA settings&lt;/i&gt;</property>
+                    <property name="use-markup">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -635,7 +638,7 @@
   <object class="GtkWindow" id="wndMain">
     <property name="visible">True</property>
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">mmSAP-win32</property>
+    <property name="title" translatable="yes">mmSAP</property>
     <property name="role">mmsap11sl154revb</property>
     <property name="resizable">False</property>
     <property name="window-position">center</property>
@@ -1085,7 +1088,6 @@
                   <packing>
                     <property name="left-attach">0</property>
                     <property name="top-attach">0</property>
-                    <property name="width">2</property>
                     <property name="height">3</property>
                   </packing>
                 </child>
@@ -1103,7 +1105,7 @@
                         <property name="can-focus">False</property>
                         <property name="halign">start</property>
                         <property name="margin-start">2</property>
-                        <property name="label" translatable="yes">mmSAP-win32</property>
+                        <property name="label" translatable="yes">mmSAP</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -1147,8 +1149,9 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="left-attach">2</property>
+                    <property name="left-attach">1</property>
                     <property name="top-attach">0</property>
+                    <property name="width">2</property>
                     <property name="height">3</property>
                   </packing>
                 </child>
@@ -1744,7 +1747,7 @@
   </object>
   <object class="GtkDialog" id="dlgAbout">
     <property name="can-focus">False</property>
-    <property name="title" translatable="yes">About mmSAP-win32</property>
+    <property name="title" translatable="yes">About mmSAP</property>
     <property name="resizable">False</property>
     <property name="modal">True</property>
     <property name="window-position">center</property>
@@ -1794,12 +1797,13 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="halign">start</property>
-                <property name="label">&lt;b&gt;mmSAP-win32&lt;/b&gt;
-SAP player for Windows
+                <property name="label">&lt;b&gt;mmSAP&lt;/b&gt;
+SAP Player for Windows and GNU/Linux
+by BAKTRA Software
 &lt;b&gt;Libraries used:&lt;/b&gt;
 ASAP, GTKmm, SDL2
 &lt;b&gt;Home page:&lt;/b&gt;
-https://github.com/baktragh/mmsap_win32</property>
+https://github.com/baktragh/mmsap</property>
                 <property name="use-markup">True</property>
                 <property name="yalign">0</property>
               </object>

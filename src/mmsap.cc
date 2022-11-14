@@ -30,7 +30,7 @@
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP-win32 3.0.0 beta2"
+#define MMSAP_VERSION_STRING "mmSAP 3.0.0 beta3"
 
 
 /*Prototypes*/
