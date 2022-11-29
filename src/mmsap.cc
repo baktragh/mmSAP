@@ -30,7 +30,7 @@
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP 3.0.0 beta3"
+#define MMSAP_VERSION_STRING "mmSAP 3.0.0"
 
 
 /*Prototypes*/
@@ -138,21 +138,24 @@ void on_loadSAP() {
     
     if (r==1) {
         Glib::RefPtr<Gio::File> pickedFileRef=gui->fcdLoad->get_file();
-        loadAndPlayFile(pickedFileRef->get_path());
-        playlist->clearCurrentColumn();
-
+        
         /*Create a private recent item*/
         Gtk::RecentManager::Data recentData;
         recentData.display_name = pickedFileRef->get_basename();
         recentData.description = "";
-        recentData.mime_type = "";
-        recentData.app_name = "mmSAP";
-        recentData.app_exec = "mmsap";
+        recentData.mime_type = "application/x-sap";
+        recentData.app_name =  Glib::ustring(g_get_application_name());
+        recentData.app_exec = "mmsap \%f";
         recentData.groups = std::vector<Glib::ustring>();
         recentData.is_private = true;
 
         gui->recentManager->add_item(pickedFileRef->get_uri(),recentData);
         gui->fcdLoad->set_current_folder(pickedFileRef->get_parent()->get_path());
+        
+        loadAndPlayFile(pickedFileRef->get_path());
+        playlist->clearCurrentColumn();
+
+        
     }
 
 }
@@ -478,9 +481,22 @@ void on_fcdBrowseAndPlayFileActivated() {
      Glib::RefPtr<Gio::File> pickedFileRef = gui->fcdBrowseAndPlay->get_file();
     
     if (playlist->isFile(pickedFileRef->get_path())) {
+        
+        /*Create a private recent item*/
+        Gtk::RecentManager::Data recentData;
+        recentData.display_name = pickedFileRef->get_basename();
+        recentData.description = "";
+        recentData.mime_type = "application/x-sap";
+        recentData.app_name = Glib::ustring(g_get_application_name());
+        recentData.app_exec = "mmsap \%f";
+        recentData.groups = std::vector<Glib::ustring>();
+        recentData.is_private = true;
+        gui->recentManager->add_item(pickedFileRef->get_uri(),recentData);
+        
         loadAndPlayFile(pickedFileRef->get_path(),false);
         playlist->clearCurrentColumn();
-        gui->recentManager->add_item(pickedFileRef->get_uri());
+        
+        
     }
 }
 
