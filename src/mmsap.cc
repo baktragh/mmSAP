@@ -30,7 +30,7 @@
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP 3.0.0"
+#define MMSAP_VERSION_STRING "mmSAP 3.0.1-dev"
 
 
 /*Prototypes*/
@@ -109,11 +109,8 @@ int main(int argc, char** argv) {
         gui->fcdPlaylist->set_filename(preferences->getLastPlaylist());
     }
 
-    /*Try to load asma if enabled*/
-    if (preferences->getUseStilFile() == true) {
-        asma->initialize(preferences->getAsmaDirectory(), preferences->getStilFile());
-        asma->parse();
-    }
+    /*Initialize ASMA STIL*/
+    asma->reinitialize(preferences->getAsmaDirectory(), preferences->getStilFile(),preferences->getUseStilFile());
 
     /*Show main window*/
     app->add_window(*(gui->wndMain));
@@ -249,6 +246,7 @@ void on_preferencesInvoke() {
     } else {
         gui->flushPreferences(preferences);
         aPlayer->updateConfig();
+        asma->reinitialize(preferences->getAsmaDirectory(), preferences->getStilFile(),preferences->getUseStilFile());
     }
 
 }
@@ -441,7 +439,6 @@ void loadAndPlayFile(Glib::ustring fspec, bool shout) {
         sti += '\n';
         sti += et;
         gui->txvTuneInfo->get_buffer()->set_text(sti);
-        //gui->toolTips.set_tip(*(gui->lblFilename), Glib::ustring(g_strstrip((gchar*) sti.c_str())));
     }
 
 }

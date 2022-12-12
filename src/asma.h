@@ -7,18 +7,18 @@
 class Asma {
 public:
     Asma();
-    void initialize(Glib::ustring dir, Glib::ustring stil);
-    void parse();
+    void reinitialize(Glib::ustring asmaDir, Glib::ustring asmaStil,bool asmaEnabled);
     Glib::ustring getEntry(Glib::ustring fspec);
 
 private:
-    bool valid;
+    bool enabled;
     std::map<std::string, std::string> table;
-    Glib::ustring asmaDir;
+    Glib::ustring directory;
     Glib::ustring stilFile;
     std::vector<Glib::ustring> stilTexts;
     std::vector<Glib::ustring> stilPaths;
     void addEntry(Glib::ustring path, Glib::ustring text);
+    void parse();
 };
 
 

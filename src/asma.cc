@@ -2,29 +2,43 @@
 #include "platform.h"
 
 Asma::Asma() {
-    valid = false;
-    asmaDir = "";
+
+    enabled = false;
+    directory = "";
     stilFile = "";
 }
 
-void Asma::initialize(Glib::ustring dir, Glib::ustring stil) {
-    valid = false;
+void Asma::reinitialize(Glib::ustring asmaDir, Glib::ustring asmaStil,bool asmaEnabled) {
+
+    if (asmaEnabled==false) {
+        enabled=false;
+        return;
+    }
+
+    /*If no change in the settings, just do nothing*/
+    if (directory==asmaDir && stilFile==asmaStil && enabled==asmaEnabled) {
+        enabled=true;
+        return;
+    }
+
+    /*STIL not available until proven otherwise*/
+    enabled = false;
 
     /*Check existence of asma directory and files*/
     gboolean b;
 
 #ifdef DEBUG_PRINTOUTS
-    printf("Asma::initialize() testing: |%s|,|%s|\n", dir.c_str(), stil.c_str());
+    printf("Asma::reinitialize() testing: |%s|,|%s|\n", dir.c_str(), stil.c_str());
 #endif
 
-    b = Glib::file_test(dir, Glib::FILE_TEST_IS_DIR);
+    b = Glib::file_test(asmaDir, Glib::FILE_TEST_IS_DIR);
     if (b == false) return;
 
 #ifdef DEBUG_PRINTOUTS
     printf("Asma::initialize() ASMA directory exist\n");
 #endif
 
-    b = Glib::file_test(stil, Glib::FILE_TEST_IS_REGULAR);
+    b = Glib::file_test(asmaStil, Glib::FILE_TEST_IS_REGULAR);
     if (b == false) return;
 
 #ifdef DEBUG_PRINTOUTS
@@ -33,15 +47,13 @@ void Asma::initialize(Glib::ustring dir, Glib::ustring stil) {
 
 
     /*These files exist, create hashtable*/
+    directory = asmaDir;
+    stilFile = asmaStil;
     table.clear();
-
-
-    asmaDir = dir;
-    stilFile = stil;
     stilPaths.clear();
     stilTexts.clear();
 
-    valid = true;
+    parse();
 
 }
 
@@ -50,8 +62,6 @@ void Asma::parse() {
 #ifdef DEBUG_PRINTOUTS
     printf("Asma::parse()\n");
 #endif
-
-    if (valid == false) return;
 
     char buf[512];
     Glib::ustring line;
@@ -111,6 +121,8 @@ void Asma::parse() {
     /*Any trailing*/
     addEntry(tunePath, tuneText);
 
+    enabled=true;
+
 }
 
 void Asma::addEntry(Glib::ustring path, Glib::ustring text) {
@@ -130,21 +142,21 @@ Glib::ustring Asma::getEntry(Glib::ustring fspec) {
     printf("Asma::getEntry|%s|\n", fspec.c_str());
 #endif
 
-    Glib::ustring retVal = "";
+    if (enabled==false) return Glib::ustring("");
 
-    if (valid == false) return retVal;
+    Glib::ustring retVal = "";
     if (fspec.length() < 1) return retVal;
 
     /*Try to find asma directory at the beginning of the filespec*/
     Glib::ustring upperSpec = fspec.uppercase();
-    Glib::ustring upperAsmaDir = asmaDir.uppercase();
+    Glib::ustring upperAsmaDir = directory.uppercase();
 
     int k = upperSpec.find(upperAsmaDir);
     if (k != 0) return retVal;
 
     /*The filespec now starts with asma, so we should remove the beginning chars*/
     Glib::ustring rawKey = fspec;
-    rawKey = rawKey.erase(0, asmaDir.length());
+    rawKey = rawKey.erase(0, directory.length());
     Glib::ustring key;
 
     /*Reverse slashes*/
