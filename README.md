@@ -25,7 +25,7 @@ Features
    * Single instance application (using GTK 3 features)
    * Drag and drop support
    * 'Browse and play' file chooser
-   * Audio output through SDL2
+   * Audio output through the SDL2 library
    * Possibility to mute selected POKEY channels
 
 Operating systems supported
@@ -54,11 +54,13 @@ Compiling and installing under GNU/Linux
 Compiling and installing under Microsoft Windows
 ================================================
 In general, it is recommended to use the available binary packages.
+
 If you need to build mmSAP from the source code, follow these steps:
 
-   * Install MSYS2
-   * Install all dependencies. The xxd tool is typically shipped with the vim package.
-   * Change working directory to the directory with mmSAP sources and invoke the following commands
+   * Install MSYS2, Software Distribution and Building Platform for Windows, available at https://www.msys2.org
+   * Install all dependencies using the pacman tool shipped with MSYS2. Note: The xxd tool is typically shipped as a part of the vim package
+   * Run the mingw32 shell shipped with MSYS2
+   * Change working directory to the directory with mmSAP sources and invoke the following commands:
    
          cmake -G "MSYS Makefiles" .
          make
