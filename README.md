@@ -1,8 +1,10 @@
+
+
 Introduction 
 ===============
    mmSAP s SAP (Slight atari player) player based on ASAP library that uses SDL2 for audio output
    and has GTK 3 based GUI
-
+   
    SAP is a special file format designed to store POKEY-based Atari XL/XE music.
    The biggest collection of such music is ASMA (Atari SAP Music Archive) that
    can be found at: http://asma.atari.org.
@@ -11,6 +13,10 @@ Introduction
    information about supported formats, refer to the ASAP project.
 
    mmSAP's development has been revived in late 2022 with unified code base for Windows and Linux. The revival was inspired by a similar revival of the ASMA archive.
+   
+Screenshot
+=============
+   <img src="https://github.com/baktragh/mmSAP/blob/master/media/screenshot_1.png?raw=true" width="240"></img>
 
 Features
 ===========
