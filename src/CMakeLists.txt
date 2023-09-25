@@ -14,7 +14,7 @@ add_custom_command (
 #Main mmsap module
 add_executable( mmsap
   mmsap.cc
-  alsaplayer.cc
+  sdlplayer.cc
   asma.cc
   columnmodel.cc
   gui.cc

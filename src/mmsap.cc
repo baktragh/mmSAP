@@ -1,8 +1,8 @@
 /* 
-   mmSAP-win32  v3.0.0
+   mmSAP-win32  v3.0.2
    
    SAP (Slight atari player) player based on ASAP library
-   Copyright (C) 2009-2022 Michael Kalouš <zylon@post.cz>
+   Copyright (C) 2009-2023 Michael Kalouš <zylon@post.cz>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -21,16 +21,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "alsaplayer.h"
+#include "sdlplayer.h"
 
 #include <gtkmm.h> 
 
-#include "alsaplayer.h"
 #include "gui.h"
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP 3.0.1-dev"
+#define MMSAP_VERSION_STRING "mmSAP 3.0.2"
 
 
 /*Prototypes*/
@@ -42,7 +41,7 @@ int onCommandLine(const Glib::RefPtr<Gio::ApplicationCommandLine>& command_line)
 Preferences* preferences;
 GUI* gui;
 
-AlsaPlayer* aPlayer;
+SDLPlayer* aPlayer;
 Playlist* playlist;
 Asma* asma;
 
@@ -69,7 +68,7 @@ int main(int argc, char** argv) {
     preferences = &xprefs;
     GUI xgui;
     gui = &xgui;
-    AlsaPlayer xplayer(preferences, gui);
+    SDLPlayer xplayer(preferences, gui);
     aPlayer = &xplayer;
     Playlist xplaylist;
     playlist = &xplaylist;
@@ -427,7 +426,7 @@ void loadAndPlayFile(Glib::ustring fspec, bool shout) {
         return;
     }
 
-    if (er == PLAYER_LP_ALSA_ERROR && shout == true) {
+    if (er == PLAYER_LP_SDL_ERROR && shout == true) {
         gui->runMessageDialog("Error", "Sound card initialization error", aPlayer->getLastError());
     }
 
@@ -492,7 +491,6 @@ void on_fcdBrowseAndPlayFileActivated() {
         
         loadAndPlayFile(pickedFileRef->get_path(),false);
         playlist->clearCurrentColumn();
-        
         
     }
 }
