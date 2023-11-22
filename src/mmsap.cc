@@ -1,5 +1,5 @@
 /* 
-   mmSAP-win32  v3.0.2
+   mmSAP-win32  v3.0.3
    
    SAP (Slight atari player) player based on ASAP library
    Copyright (C) 2009-2023 Michael Kalouš <zylon@post.cz>
@@ -29,7 +29,7 @@
 #include "playlist.h"
 #include "asma.h"
 
-#define MMSAP_VERSION_STRING "mmSAP 3.0.2"
+#define MMSAP_VERSION_STRING "mmSAP 3.0.3"
 
 
 /*Prototypes*/

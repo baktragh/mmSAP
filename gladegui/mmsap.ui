@@ -92,15 +92,43 @@
                 <property name="orientation">vertical</property>
                 <property name="spacing">2</property>
                 <child>
-                  <object class="GtkCheckButton" id="chbAdvancedControlsShownByDefault">
-                    <property name="label">Show advanced controls by default</property>
+                  <object class="GtkBox">
                     <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="receives-default">False</property>
-                    <property name="halign">start</property>
-                    <property name="margin-start">4</property>
-                    <property name="use-underline">True</property>
-                    <property name="draw-indicator">True</property>
+                    <property name="can-focus">False</property>
+                    <child>
+                      <object class="GtkLabel">
+                        <property name="visible">True</property>
+                        <property name="can-focus">False</property>
+                        <property name="margin-start">2</property>
+                        <property name="label" translatable="yes">Default directory:</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">False</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkEntry" id="entDefaultDirectory">
+                        <property name="name">Default directory:</property>
+                        <property name="visible">True</property>
+                        <property name="can-focus">True</property>
+                        <property name="margin-start">4</property>
+                        <property name="margin-end">4</property>
+                        <property name="invisible-char">●</property>
+                        <property name="width-chars">48</property>
+                        <property name="primary-icon-activatable">False</property>
+                        <property name="secondary-icon-activatable">False</property>
+                        <property name="secondary-icon-tooltip-text" translatable="yes">
+</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="padding">2</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -126,43 +154,15 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkBox">
+                  <object class="GtkCheckButton" id="chbAdvancedControlsShownByDefault">
+                    <property name="label">Show advanced controls by default</property>
                     <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <child>
-                      <object class="GtkLabel">
-                        <property name="visible">True</property>
-                        <property name="can-focus">False</property>
-                        <property name="label" translatable="yes">Default directory:</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">False</property>
-                        <property name="padding">2</property>
-                        <property name="position">0</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkEntry" id="entDefaultDirectory">
-                        <property name="name">Default directory:</property>
-                        <property name="visible">True</property>
-                        <property name="can-focus">True</property>
-                        <property name="margin-start">4</property>
-                        <property name="margin-end">4</property>
-                        <property name="invisible-char">●</property>
-                        <property name="width-chars">48</property>
-                        <property name="primary-icon-activatable">False</property>
-                        <property name="secondary-icon-activatable">False</property>
-                        <property name="secondary-icon-tooltip-text" translatable="yes">
-</property>
-                      </object>
-                      <packing>
-                        <property name="expand">False</property>
-                        <property name="fill">True</property>
-                        <property name="padding">2</property>
-                        <property name="position">1</property>
-                      </packing>
-                    </child>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="halign">start</property>
+                    <property name="margin-start">4</property>
+                    <property name="use-underline">True</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -246,7 +246,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="chbNormalizeSAPHeader">
-                    <property name="label" translatable="yes">Circumvent malformed SAP header</property>
+                    <property name="label" translatable="yes">Try autofixing malformed SAP headers</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
@@ -284,15 +284,16 @@
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <property name="orientation">vertical</property>
+                <property name="baseline-position">top</property>
                 <child>
-                  <!-- n-columns=2 n-rows=4 -->
+                  <!-- n-columns=2 n-rows=3 -->
                   <object class="GtkGrid">
                     <property name="visible">True</property>
                     <property name="can-focus">False</property>
-                    <property name="halign">start</property>
                     <property name="valign">start</property>
                     <property name="margin-start">4</property>
                     <property name="margin-end">4</property>
+                    <property name="column-spacing">4</property>
                     <child>
                       <object class="GtkLabel" id="label21">
                         <property name="visible">True</property>
@@ -300,7 +301,6 @@
                         <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="margin-end">2</property>
-                        <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Visualization update period (ms):</property>
                       </object>
                       <packing>
@@ -315,7 +315,6 @@
                         <property name="halign">start</property>
                         <property name="margin-start">4</property>
                         <property name="margin-end">4</property>
-                        <property name="hexpand">True</property>
                         <property name="primary-icon-activatable">False</property>
                         <property name="secondary-icon-activatable">False</property>
                         <property name="adjustment">adjustment3</property>
@@ -356,7 +355,6 @@
                         <property name="halign">start</property>
                         <property name="margin-start">2</property>
                         <property name="margin-end">2</property>
-                        <property name="hexpand">True</property>
                         <property name="label" translatable="yes">Visualization decrement (units):</property>
                       </object>
                       <packing>
@@ -382,6 +380,7 @@
                       <object class="GtkScale" id="hscVisualizationSynchro">
                         <property name="visible">True</property>
                         <property name="can-focus">True</property>
+                        <property name="hexpand">True</property>
                         <property name="adjustment">adjustment1</property>
                         <property name="restrict-to-fill-level">False</property>
                         <property name="fill-level">0</property>
@@ -389,18 +388,14 @@
                         <property name="value-pos">right</property>
                       </object>
                       <packing>
-                        <property name="left-attach">0</property>
-                        <property name="top-attach">3</property>
-                        <property name="width">2</property>
+                        <property name="left-attach">1</property>
+                        <property name="top-attach">2</property>
                       </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">False</property>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
@@ -558,7 +553,7 @@
                 </child>
                 <child>
                   <object class="GtkCheckButton" id="chbUseStil">
-                    <property name="label" translatable="yes">Use STIL</property>
+                    <property name="label" translatable="yes">Use the STIL database</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
